@@ -11,15 +11,13 @@ docs = conll_parser.parse("train.conll")
 data = pos_tagger.tag(docs)
 feature = FeatureGenerator()
 features = feature.extract_word_features(data)
-
-# split test / train data
-X_train, _, y_train, _ = feature.get_train_test_split(data, features)
+labels = [feature.get_labels(doc) for doc in data]
 
 # set up trainer
 trainer = pycrfsuite.Trainer(verbose=True)
 
 # Submit training data to the trainer
-for xseq, yseq in zip(X_train, y_train):
+for xseq, yseq in zip(features, labels):
     trainer.append(xseq, yseq)
 
 # Set the parameters of the model
