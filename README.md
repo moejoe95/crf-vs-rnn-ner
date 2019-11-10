@@ -18,6 +18,7 @@ The code (and the choosen features) are inspired by following blogs/papers:
 * https://noisy-text.github.io/2016/pdf/WNUT22.pdf
 * https://github.com/nguyeho7/CZ_NER
 * https://github.com/Orbifold/dutch-ner/blob/master/NER%20using%20CRF.ipynb
+* https://stackoverflow.com/questions/52049511/how-to-perform-clustering-on-word2vec
 
 ## Dataset:
 
