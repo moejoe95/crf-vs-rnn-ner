@@ -1,22 +1,31 @@
-from sklearn.model_selection import train_test_split
 import nltk
 import re as regex
 import gensim 
 from gensim.models import Word2Vec 
-from sklearn.cluster import DBSCAN
 import WordShape
+import word2vec
+from nltk import cluster
 
 class FeatureGenerator:
 
     stopwords = []
-    w2v_clusters = None
+    w2v_dict = None
     tokens = []
+    data = None
     ws = None
 
-    def __init__(self):
+    def __init__(self, data):
+        self.data = data
         self.stopwords = nltk.corpus.stopwords.words('english')
         self.ws = WordShape.WordShape()
 
+        # train and predict word2vec clustering
+        for doc in data:
+            for word in doc:
+                self.tokens.append(word[0])
+        w2v = word2vec.word2vec(self.tokens, 5)
+        w2v.train()
+        self.w2v_dict = dict(zip(self.tokens, w2v.predict()))
 
     def get_features(self, doc, index):
         word = doc[index][0]
@@ -25,12 +34,11 @@ class FeatureGenerator:
             'bias',
             'word.len=%s' % len(word),
             'word[-3:]=' + word[-3:],
-            'word[:3]=' + word[:3],
             'word.containsupper%s' % any(char.isupper() for char in word),
             'word.containsnonalpha=%s' % all((not char.isalpha()) for char in word),
             'word.isstopword=%s' % (word in self.stopwords),
             'word.shape=%s' % self.ws.get_wordshape(word),
-            #'word.w2vcluster=%s' % self.w2v_clusters[index],
+            'word.w2vcluster=%s' % self.w2v_dict[word],
             'word.cfrequency=%s' % self.tokens.count(word),
             'postag=' + postag
         ]
@@ -39,11 +47,6 @@ class FeatureGenerator:
 
 
     def word2features(self, doc, i):
-        # TODO
-        # name lookup, dictionary
-        # count vectorizer
-        # brown clusters
-        
         features = self.get_features(doc, i)
         return features
 
@@ -57,22 +60,7 @@ class FeatureGenerator:
     def get_labels(self, doc):
         return [label for (token, postag, label) in doc]
 
-    def train_w2v(self, data):
-        for doc in data:
-            for word in doc:
-                self.tokens.append(word[0])
-        w2v = gensim.models.Word2Vec(
-            self.tokens,
-            size=150,
-            window=10,
-            min_count=2,
-            workers=10,
-            iter=10) 
-        dbscan = DBSCAN(metric='cosine', eps=0.07)
-        self.w2v_clusters = dbscan.fit_predict(w2v.wv.vectors) 
 
-
-    def extract_word_features(self, data):
-        self.train_w2v(data)
-        return [self.extract_features(doc) for doc in data]
+    def extract_word_features(self):
+        return [self.extract_features(doc) for doc in self.data]
  

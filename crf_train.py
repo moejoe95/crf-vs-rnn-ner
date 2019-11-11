@@ -10,12 +10,12 @@ import os
 docs = conll_parser.parse("train.conll")
 # do pos tagging, as part of feature extraction
 data = pos_tagger.tag(docs)
-feature = FeatureGenerator()
-features = feature.extract_word_features(data)
+feature = FeatureGenerator(data)
+features = feature.extract_word_features()
 labels = [feature.get_labels(doc) for doc in data]
 
 # set up trainer
-trainer = pycrfsuite.Trainer(verbose=True)
+trainer = pycrfsuite.Trainer(verbose=False)
 
 # Submit training data to the trainer
 for xseq, yseq in zip(features, labels):
@@ -25,6 +25,7 @@ for xseq, yseq in zip(features, labels):
 trainer.set_params({
     'c1': 0.1,
     'c2': 0.01,  
+    'max_iterations': 100,
     'feature.possible_transitions': True
 })
 

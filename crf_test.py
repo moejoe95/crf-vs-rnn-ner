@@ -16,8 +16,8 @@ docs = conll_parser.parse("test.conll")
 
 # do pos tagging, as part of feature extraction
 data = pos_tagger.tag(docs)
-feature = FeatureGenerator()
-features = feature.extract_word_features(data)
+feature = FeatureGenerator(data)
+features = feature.extract_word_features()
 test_labels = [feature.get_labels(doc) for doc in data]
 
 # Generate predictions

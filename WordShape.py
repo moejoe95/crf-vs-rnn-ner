@@ -1,7 +1,7 @@
 import re
 
 '''
-from https://github.com/aleju/ner-crf
+influenced by from https://github.com/aleju/ner-crf
 '''
 class WordShape:
 
