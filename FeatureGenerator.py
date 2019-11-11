@@ -5,6 +5,7 @@ from gensim.models import Word2Vec
 from WordShape import WordShape
 from word2vec import word2vec
 from BrownWrapper import BrownWrapper
+from Gazetteer import Gazetteer
 from nltk import cluster
 
 class FeatureGenerator:
@@ -15,6 +16,7 @@ class FeatureGenerator:
     data = None
     ws = None
     brown_dict = None
+    gazetteer = None
 
     def __init__(self, data):
         self.data = data
@@ -31,6 +33,7 @@ class FeatureGenerator:
 
         brown_wrapper = BrownWrapper(data)
         self.brown_dict = brown_wrapper.get_brown_clustering()
+        self.gazetteer = Gazetteer(data)
 
 
     def get_features(self, doc, index):
@@ -40,6 +43,7 @@ class FeatureGenerator:
             'bias',
             'word.len=%s' % len(word),
             'word[-3:]=' + word[-3:],
+            'word[:3]=' + word[:3],
             'word.containsupper%s' % any(char.isupper() for char in word),
             'word.containsnonalpha=%s' % all((not char.isalpha()) for char in word),
             'word.isstopword=%s' % (word in self.stopwords),
@@ -47,6 +51,7 @@ class FeatureGenerator:
             'word.w2vcluster=%s' % self.w2v_dict[word],
             'word.brownbitseq=%s' % self.brown_dict[word][0],
             'word.browncluster=%s' % self.brown_dict[word][1],
+            'word.gazetteer=%s' % self.gazetteer.gazetteer.get(word, -1),
             'word.cfrequency=%s' % self.tokens.count(word),
             'postag=' + postag
         ]
