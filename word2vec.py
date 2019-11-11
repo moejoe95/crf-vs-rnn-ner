@@ -2,6 +2,7 @@ import numpy as np
 from gensim.models.word2vec import Word2Vec
 from sklearn.cluster import MiniBatchKMeans
 import gensim
+import os
 
 
 class word2vec:
@@ -15,13 +16,11 @@ class word2vec:
     def __init__(self, tokens, K):
         self.K = K
         self.tokens = tokens
-        self.model = gensim.models.Word2Vec(
-            self.tokens,
-            size=150,
-            window=10,
-            min_count=2,
-            workers=10,
-            iter=10) 
+        if os.path.isfile('w2v.model'):
+            self.model = Word2Vec.load('w2v.model')
+        else:
+            self.model = Word2Vec(self.tokens) 
+            self.model.save('w2v.model')
         self.make_dataset()
 
 
