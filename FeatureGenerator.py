@@ -50,8 +50,8 @@ class FeatureGenerator:
             'word.shape=%s' % self.ws.get_wordshape(word),
             'word.w2vcluster=%s' % self.w2v_dict[word],
             'word.brownbitseq=%s' % self.brown_dict[word][0],
-            'word.browncluster=%s' % self.brown_dict[word][1],
-            'word.gazetteer=%s' % self.gazetteer.gazetteer.get(word, -1),
+            'word.browncluster=%s' % self.brown_dict[word][1], # TODO same as cfrequency?
+            #'word.gazetteer=%s' % self.gazetteer.gazetteer.get(word, -1), 
             'word.cfrequency=%s' % self.tokens.count(word),
             'postag=' + postag
         ]

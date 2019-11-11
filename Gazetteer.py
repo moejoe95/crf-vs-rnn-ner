@@ -11,18 +11,19 @@ class Gazetteer:
         else:
             for doc in data:
                 for word in doc:
+                    ne = word[0].replace('#', '', 1)
                     if 'person' in word[2]:
-                        self.gazetteer.update({word[0]: 0})
+                        self.gazetteer.update({ne: 0})
                     elif 'product' in word[2]:
-                        self.gazetteer.update({word[0]: 1})
+                        self.gazetteer.update({ne: 1})
                     elif 'creative-work' in word[2]:
-                        self.gazetteer.update({word[0]: 2})
+                        self.gazetteer.update({ne: 2})
                     elif 'location' in word[2]:
-                        self.gazetteer.update({word[0]: 3})
+                        self.gazetteer.update({ne: 3})
                     elif 'corporation' in word[2]:
-                        self.gazetteer.update({word[0]: 4})
+                        self.gazetteer.update({ne: 4})
                     elif 'group' in word[2]:
-                        self.gazetteer.update({word[0]: 5})
+                        self.gazetteer.update({ne: 5})
             self.save()
 
 
@@ -31,7 +32,7 @@ class Gazetteer:
             content = f.readlines()
             for line in content:
                 entry = line.split(":")
-                self.gazetteer.update({entry[0]: entry[1]})
+                self.gazetteer.update({entry[0]: entry[1].strip()})
 
 
     def save(self):
