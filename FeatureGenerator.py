@@ -4,6 +4,7 @@ import gensim
 from gensim.models import Word2Vec 
 from WordShape import WordShape
 from word2vec import word2vec
+from BrownWrapper import BrownWrapper
 from nltk import cluster
 
 class FeatureGenerator:
@@ -13,6 +14,7 @@ class FeatureGenerator:
     tokens = []
     data = None
     ws = None
+    brown_dict = None
 
     def __init__(self, data):
         self.data = data
@@ -27,6 +29,10 @@ class FeatureGenerator:
         w2v.train()
         self.w2v_dict = dict(zip(self.tokens, w2v.predict()))
 
+        brown_wrapper = BrownWrapper(data)
+        self.brown_dict = brown_wrapper.get_brown_clustering()
+
+
     def get_features(self, doc, index):
         word = doc[index][0]
         postag = doc[index][1]
@@ -39,6 +45,8 @@ class FeatureGenerator:
             'word.isstopword=%s' % (word in self.stopwords),
             'word.shape=%s' % self.ws.get_wordshape(word),
             'word.w2vcluster=%s' % self.w2v_dict[word],
+            'word.brownbitseq=%s' % self.brown_dict[word][0],
+            'word.browncluster=%s' % self.brown_dict[word][1],
             'word.cfrequency=%s' % self.tokens.count(word),
             'postag=' + postag
         ]

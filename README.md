@@ -21,6 +21,7 @@ The code (and the choosen features) are inspired by following blogs/papers/repos
 * https://stackoverflow.com/questions/52049511/how-to-perform-clustering-on-word2vec
 * https://github.com/aleju/ner-crf
 * https://github.com/mayoyamasaki/py-kmeans-word2vec
+* https://github.com/percyliang/brown-cluster
 
 
 ## Dataset:
