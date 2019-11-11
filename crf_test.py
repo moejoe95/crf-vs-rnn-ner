@@ -25,38 +25,30 @@ tagger = pycrfsuite.Tagger()
 tagger.open(sys.argv[1])
 y_pred = [tagger.tag(xseq) for xseq in features]
 
-test_entities = 0
-test_non_entities = 0
-corr_pred_entities = 0
-corr_pred_non_entities = 0
-incorr_pred_entities = 0
-incorr_pred_non_entities = 0
+tp = tn = fp = fn = 0
 
 for i in range(0, len(y_pred)-1):
     for j in range(0, len(y_pred[i])-1):
         p = y_pred[i][j]
         t = test_labels[i][j]
-        if t == 'O':
-            test_non_entities += 1 
-        else:
-             test_entities += 1
-        if p == t and p != 'O':
-            corr_pred_entities += 1
-        elif p == t and p == 'O':
-            corr_pred_non_entities +=1
-        elif p != t and p != 'O':
-            incorr_pred_entities += 1
-        elif p != t and p == 'O':
-            incorr_pred_non_entities += 1
 
+        if p != 'O' and t != 'O':
+            tp += 1
+        elif p == 'O' and t == 'O':
+            tn +=1
+        elif p != 'O' and t == 'O':
+            fp += 1
+        elif p == 'O' and t != 'O':
+            fn += 1 
         else:
             print('test data invalid!')
-            
-print("number of words: ", test_entities + test_non_entities)
-print("number of named entities: ", test_entities)
-print("number of non named entities: ", test_non_entities)
 
-print("correct predicted entities: ", corr_pred_entities)
-print("correct predicted non entities: ", corr_pred_non_entities)
-print("incorrect prediced entities: ", incorr_pred_entities)
-print("incorrect predicted non entities: ", incorr_pred_non_entities)
+accuracy = (tp+tn)/(tp+tn+fp+fn) 
+precision = (tp) / (tp+fp) 
+recall = tp / (tp + fn)
+f1 = 2 * precision * recall / (precision + recall)
+
+print("accuracy = ", accuracy)
+print("precision = ", precision)
+print("recall = ", recall)
+print("f1 = ", f1)
