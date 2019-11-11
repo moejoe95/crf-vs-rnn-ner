@@ -4,6 +4,7 @@ import pycrfsuite
 import conll_parser
 from FeatureGenerator import FeatureGenerator
 import pos_tagger
+import os
 
 # parse file
 docs = conll_parser.parse("train.conll")
@@ -28,4 +29,5 @@ trainer.set_params({
 })
 
 # save model to file
+os.remove('crf.model')
 trainer.train('crf.model')
