@@ -1,8 +1,6 @@
 import re
 
-'''
-influenced by from https://github.com/aleju/ner-crf
-'''
+
 class WordShape:
 
     def __init__(self):

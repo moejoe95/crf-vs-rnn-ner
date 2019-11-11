@@ -2,8 +2,8 @@ import nltk
 import re as regex
 import gensim 
 from gensim.models import Word2Vec 
-import WordShape
-import word2vec
+from WordShape import WordShape
+from word2vec import word2vec
 from nltk import cluster
 
 class FeatureGenerator:
@@ -17,13 +17,13 @@ class FeatureGenerator:
     def __init__(self, data):
         self.data = data
         self.stopwords = nltk.corpus.stopwords.words('english')
-        self.ws = WordShape.WordShape()
+        self.ws = WordShape()
 
         # train and predict word2vec clustering
         for doc in data:
             for word in doc:
                 self.tokens.append(word[0])
-        w2v = word2vec.word2vec(self.tokens, 5)
+        w2v = word2vec(self.tokens, 5)
         w2v.train()
         self.w2v_dict = dict(zip(self.tokens, w2v.predict()))
 

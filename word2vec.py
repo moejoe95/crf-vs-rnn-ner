@@ -3,9 +3,7 @@ from gensim.models.word2vec import Word2Vec
 from sklearn.cluster import MiniBatchKMeans
 import gensim
 
-'''
-influenced by https://github.com/mayoyamasaki/py-kmeans-word2vec
-'''
+
 class word2vec:
 
     K = None
@@ -28,16 +26,6 @@ class word2vec:
 
 
     def make_dataset(self):
-        """Make dataset from pre-trained Word2Vec model.
-        Paramters
-        ---------
-        model: gensim.models.word2vec.Word2Vec
-            pre-traind Word2Vec model as gensim object.
-        Returns
-        -------
-        numpy.ndarray((vocabrary size, vector size))
-            Sikitlearn's X format.
-        """
         V = self.model.wv.index2word
         X = np.zeros((len(V), self.model.wv.vector_size))
 
@@ -48,18 +36,6 @@ class word2vec:
 
 
     def train(self):
-        """Learn K-Means Clustering with MiniBatchKMeans.
-        Paramters
-        ---------
-        X: numpy.ndarray((sample size, feature size))
-            training dataset.
-        K: int
-            number of clusters to use MiniBatchKMeans.
-        Returens
-        --------
-        sklearn.cluster.MiniBatchKMeans
-            trained model.
-        """
         self.classifier = MiniBatchKMeans(n_clusters=self.K, random_state=0)
         self.classifier.fit(self.X)
 

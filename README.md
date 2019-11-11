@@ -8,7 +8,7 @@ At the moment this project just contains an implementation using CRF.
 
 ## Sources:
 
-The code (and the choosen features) are inspired by following blogs/papers:
+The code (and the choosen features) are inspired by following blogs/papers/repos:
 
 * https://www.depends-on-the-definition.com/named-entity-recognition-conditional-random-fields-python/
 * http://www.albertauyeung.com/post/python-sequence-labelling-with-crf/
@@ -20,6 +20,7 @@ The code (and the choosen features) are inspired by following blogs/papers:
 * https://github.com/Orbifold/dutch-ner/blob/master/NER%20using%20CRF.ipynb
 * https://stackoverflow.com/questions/52049511/how-to-perform-clustering-on-word2vec
 * https://github.com/aleju/ner-crf
+* https://github.com/mayoyamasaki/py-kmeans-word2vec
 
 
 ## Dataset:
