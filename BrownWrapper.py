@@ -18,11 +18,24 @@ class BrownWrapper:
         outdir = outlogfile.split("/")[0]
         self.outfile = outdir + "/paths"
 
+
+    def bin_to_dec(self, binary): 
+        binary = int(binary)
+        binary1 = binary
+        decimal, i, n = 0, 0, 0
+        while(binary != 0): 
+            dec = binary % 10
+            decimal = decimal + dec * pow(2, i) 
+            binary = binary//10
+            i += 1
+        return decimal
+
+
     def get_brown_clustering(self):
         brown_dict = dict()
         with open(self.outfile) as f:
             content = f.readlines()
             for line in content:
                 words = line.split("\t")
-                brown_dict.update({words[1]: (words[0], words[2].strip())})
+                brown_dict.update({words[1]: (words[0], words[2].strip(), self.bin_to_dec(words[0]))})
         return brown_dict
