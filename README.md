@@ -6,6 +6,22 @@ Goal of this project is to compare the performance of conditional random fields 
 
 At the moment this project just contains an implementation using CRF.
 
+## Features used for CRF
+
+* word length
+* 3 char prefix of word
+* 3 char suffix of word
+* word contains upper case char
+* word contains non alphanumeric char
+* if word is a stopword
+* the word shape (Foobar has shape Aa+, BAR has shape A+)
+* word2vec cluster using kmeans clustering
+* brown cluster & bitsequence
+* gazetter (build up from training data) lookup (TODO)
+* frequency of word in training data
+* LDA topic (TODO)
+
+
 ## Sources:
 
 The code (and the choosen features) are inspired by following blogs/papers/repos:
