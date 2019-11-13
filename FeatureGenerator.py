@@ -6,6 +6,7 @@ from WordShape import WordShape
 from word2vec import word2vec
 from BrownWrapper import BrownWrapper
 from Gazetteer import Gazetteer
+from LDA import LDA
 from nltk import cluster
 
 class FeatureGenerator:
@@ -36,6 +37,8 @@ class FeatureGenerator:
         self.brown_dict = brown_wrapper.get_brown_clustering()
         self.gazetteer = Gazetteer(data)
 
+        self.lda = LDA(self.tokens)
+
 
     def get_features(self, doc, index):
         word = doc[index][0]
@@ -44,16 +47,20 @@ class FeatureGenerator:
             'bias',
             'word.len=%s' % len(word),
             'word[-3:]=' + word[-3:],
-            'word[:3]=' + word[:3],
-            'word.containsupper%s' % any(char.isupper() for char in word),
-            'word.containsnonalpha=%s' % all((not char.isalpha()) for char in word),
-            'word.isstopword=%s' % (word in self.stopwords),
+            #'word[:3]=' + word[:3],
+            'word.startsupper=%s' % word[0].isupper(),
+            'word.containsdigit=%s' % any(char.isdigit() for char in word),
+            'word.containsspecial=%s' % any((not char.isalnum()) for char in word),
+            #'word.isfirst=%s' % (index == 0),
+            #'word.islast=%s' % (index == len(doc)-1),
+            #'word.isstopword=%s' % (word in self.stopwords),
             'word.shape=%s' % self.ws.get_wordshape(word),
             'word.w2vcluster=%s' % self.w2v_dict[word],
             'word.brownbitseq=%s' % self.brown_dict[word][0],
             'word.frequency=%s' % self.brown_dict[word][1],
             'word.browncluster=%s' % self.brown_dict[word][2],
-             #'word.gazetteer=%s' % self.gazetteer.gazetteer.get(word, 0),
+            #'word.gazetteer=%s' % self.gazetteer.gazetteer.get(word, 0),
+            'word.ldatopic=%s' % self.lda.lda.get(word, -1),
             'postag=' + postag
         ]
 
