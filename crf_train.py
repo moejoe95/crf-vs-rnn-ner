@@ -1,3 +1,15 @@
+#!/usr/bin/env python
+"""crf_train, a tool to train the CRF NER system with a given file.
+
+Usage:
+  crf_train.py (-t | --train) <file> (-m | --model) <model>
+  crf_train.py (-h | --help)
+
+Options:
+  -h --help     Show this screen.
+"""
+
+from docopt import docopt
 import numpy as np
 import pycrfsuite
 
@@ -6,8 +18,12 @@ from FeatureGenerator import FeatureGenerator
 import pos_tagger
 import os
 
+arguments = docopt(__doc__, version='crf_train')
+train_file = arguments.get('<file>', './data/conll/eng.train')
+model = arguments.get('<model>', 'crf.model')
+
 # parse file
-docs = conll_parser.parse("train.conll")
+docs = conll_parser.parse(train_file)
 # do pos tagging, as part of feature extraction
 data = pos_tagger.tag(docs)
 feature = FeatureGenerator(data)
@@ -29,5 +45,4 @@ trainer.set_params({
 })
 
 # save model to file
-os.remove('crf.model')
-trainer.train('crf.model')
+trainer.train(model)

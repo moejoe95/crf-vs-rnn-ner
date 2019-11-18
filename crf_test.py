@@ -1,3 +1,15 @@
+#!/usr/bin/env python
+"""crf_test, a tool to test the CRF NER system on a given model on a given file.
+
+Usage:
+  crf_test.py (-m | --model) <model> (-t | --test) <file>
+  crf_test.py (-h | --help)
+
+Options:
+  -h --help     Show this screen.
+"""
+
+from docopt import docopt
 import numpy as np
 import pycrfsuite
 from sklearn.metrics import classification_report
@@ -7,12 +19,13 @@ import conll_parser
 import pos_tagger
 from FeatureGenerator import FeatureGenerator
 
-if len(sys.argv) != 2:
-    print("invalid number of arguments")
-    exit(-1)
+arguments = docopt(__doc__, version='crf_test')
+
+test_file = arguments.get('<file>', './data/conll/eng.testa')
+model = arguments.get('<model>', 'crf.model')
 
 # parse file
-docs = conll_parser.parse("test.conll")
+docs = conll_parser.parse(test_file)
 
 # do pos tagging, as part of feature extraction
 data = pos_tagger.tag(docs)
@@ -22,7 +35,7 @@ test_labels = [feature.get_labels(doc) for doc in data]
 
 # Generate predictions
 tagger = pycrfsuite.Tagger()
-tagger.open(sys.argv[1])
+tagger.open(model)
 y_pred = [tagger.tag(xseq) for xseq in features]
 
 tp = tn = fp = fn = 0
