@@ -1,6 +1,6 @@
 # Comparing CRF and NN for Named Entity Recognition (NER)
 
-Goal of this project is to compare the performance of conditional random fields (CRF) with a deep learning approach like RNNs for named entity recognition (NER).
+Goal of this project is to compare the performance of conditional random fields (CRF) with a deep learning approach like RNNs (or LTSMs) for named entity recognition (NER).
 
 ## Current state
 
@@ -26,6 +26,8 @@ At the moment this project just contains an implementation using CRF.
 
 The code (and the choosen features) are inspired by following blogs/papers/repos:
 
+### CRF
+
 * https://www.depends-on-the-definition.com/named-entity-recognition-conditional-random-fields-python/
 * http://www.albertauyeung.com/post/python-sequence-labelling-with-crf/
 * http://www.oegai.at/konvens2012/proceedings/17_tkachenko12o/17_tkachenko12o.pdf
@@ -39,6 +41,10 @@ The code (and the choosen features) are inspired by following blogs/papers/repos
 * https://github.com/mayoyamasaki/py-kmeans-word2vec
 * https://github.com/percyliang/brown-cluster
 * https://stackabuse.com/python-for-nlp-topic-modeling/
+
+
+### LSTM
+* http://www.depends-on-the-definition.com/guide-sequence-tagging-neural-networks-python/
 
 
 ## Dataset:
