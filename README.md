@@ -47,9 +47,15 @@ The code (and the choosen features) are inspired by following blogs/papers/repos
 * http://www.depends-on-the-definition.com/guide-sequence-tagging-neural-networks-python/
 
 
-## Dataset:
+## Datasets:
 
-The `WNUT 17 Emerging Entities` dataset is used for training and testing the classifier. It contains text from Twitter, Stack Overflow responses, YouTube comments, and Reddit comments.
+Two datasets are used for evaluating the NER system:
 
+* `WNUT 17 Emerging Entities`: contains text from Twitter, Stack Overflow responses, YouTube comments, and Reddit comments.
+
+```
 Leon Derczynski, Eric Nichols, Marieke van Erp, Nut Limsopatham; 2017. Results of the WNUT2017 Shared Task on Novel and Emerging Entity Recognition. In Proceedings of the Workshop on Noisy, User-generated Text, at EMNLP. (https://noisy-text.github.io/2017/pdf/WNUT18.pdf)
+```
+
+* CoNLL 2003 datset from https://www.clips.uantwerpen.be/conll2003/ner/
 
