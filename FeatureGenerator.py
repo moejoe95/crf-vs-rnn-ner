@@ -26,6 +26,7 @@ class FeatureGenerator:
         self.ws = WordShape()
 
         # train and predict word2vec clustering
+        print('training word2vec ...')
         for doc in data:
             for word in doc:
                 self.tokens.append(word[0])
@@ -33,16 +34,23 @@ class FeatureGenerator:
         w2v.train()
         self.w2v_dict = dict(zip(self.tokens, w2v.predict()))
 
+        print('train brown clustering ...')
         brown_wrapper = BrownWrapper(data)
         self.brown_dict = brown_wrapper.get_brown_clustering()
+
+        print('init gazetteer ...')
         self.gazetteer = Gazetteer(data)
 
+        print('train LDA topic clustering ...')
         self.lda = LDA(self.tokens)
+
+        print('\nextracting features ...\n')
 
 
     def get_features(self, doc, index):
+        
+        # word features
         word = doc[index][0]
-        postag = doc[index][1]
         feat = [
             'bias',
             'word.len=%s' % len(word),
@@ -61,8 +69,17 @@ class FeatureGenerator:
             'word.browncluster=%s' % self.brown_dict[word][2],
             #'word.gazetteer=%s' % self.gazetteer.gazetteer.get(word, 0),
             'word.ldatopic=%s' % self.lda.lda.get(word, -1),
-            'postag=' + postag
+            'postag=' + doc[index][1]
         ]
+
+        # context features
+        
+        if index > 0:
+            prev_word = doc[index-1][0]
+            #feat.append('word[-1].browncluster=%s' % self.brown_dict[prev_word][2])
+
+        if index < len(doc)-1:
+            next_word = doc[index+1][0]
 
         return feat
 

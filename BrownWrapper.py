@@ -4,6 +4,7 @@ class BrownWrapper:
 
     outfile = None
     filename = "input.txt"
+    clusters = '5'
 
     def __init__(self, data):
 
@@ -13,7 +14,7 @@ class BrownWrapper:
                 f.write(sen[0] + " ")
             f.write("\n")
         f.close()
-        outdir = os.popen("./brown/wcluster --text " + self.filename + " --c 5").read()
+        outdir = os.popen("./brown/wcluster --text " + self.filename + " --c " + self.clusters).read()
         outlogfile = outdir.split(" ")[2]
         outdir = outlogfile.split("/")[0]
         self.outfile = outdir + "/paths"

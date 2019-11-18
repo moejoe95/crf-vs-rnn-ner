@@ -4,11 +4,18 @@ from sklearn.decomposition import LatentDirichletAllocation
 class LDA:
 
     lda = dict()
+    clusters = 3
 
     def __init__(self, tokens):
         count_vect = CountVectorizer(max_df=0.8, min_df=2, stop_words='english')
         doc_term_matrix = count_vect.fit_transform(tokens)
-        LDA = LatentDirichletAllocation(n_components=3, random_state=42)
+        LDA = LatentDirichletAllocation(
+            n_components=self.clusters, 
+            random_state=42, 
+            learning_method='online', 
+            max_iter=5, 
+            learning_offset=50
+        )
         LDA.fit(doc_term_matrix)
 
         for i,voc_entry in enumerate(count_vect.vocabulary_):
