@@ -13,6 +13,11 @@ def get_padded_seq(docs):
         if len(sentence) > max_len:
             max_len = len(sentence)
 
+    words = list(set(words))
+    labels = list(set(labels))
+    words.append("ENDPAD")
+
+
     word2idx = {w: i for i, w in enumerate(words)}
     label2idx = {t: i for i, t in enumerate(labels)}
 
@@ -24,4 +29,4 @@ def get_padded_seq(docs):
 
     y = [to_categorical(i, num_classes=len(labels)) for i in y]
 
-    return X, y, len(labels), max_len
+    return X, y, len(labels), len(words), max_len

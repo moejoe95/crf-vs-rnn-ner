@@ -23,7 +23,7 @@ for xseq, yseq in zip(features, labels):
 
 # Set the parameters of the model
 trainer.set_params({
-    'c1': 0.1,
+    'c1': 0.5,
     'c2': 0.01,  
     'feature.possible_transitions': True
 })

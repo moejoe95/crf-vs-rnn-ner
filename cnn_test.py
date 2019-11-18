@@ -15,7 +15,7 @@ docs = conll_parser.parse("dataset.conll")
 
 model = load_model(sys.argv[1])
 
-X, y, _, _ = get_padded_seq(docs)
+X, y, _, _, _ = get_padded_seq(docs)
 
 _, X_te, _, y_te = train_test_split(X, y, test_size=0.1)
 
