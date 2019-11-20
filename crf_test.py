@@ -26,7 +26,7 @@ test_file = arguments.get('<file>', './data/conll/eng.testa')
 model = arguments.get('<model>', 'crf.model')
 
 # parse file
-docs = conll_parser.parse(test_file)
+docs, words, labels = conll_parser.parse(test_file)
 
 # do pos tagging, as part of feature extraction
 data = pos_tagger.tag(docs)

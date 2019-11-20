@@ -23,7 +23,8 @@ train_file = arguments.get('<file>', './data/conll/eng.train')
 model = arguments.get('<model>', 'crf.model')
 
 # parse file
-docs = conll_parser.parse(train_file)
+docs, words, labels = conll_parser.parse(train_file)
+
 # do pos tagging, as part of feature extraction
 data = pos_tagger.tag(docs)
 feature = FeatureGenerator(data)
