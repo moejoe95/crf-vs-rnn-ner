@@ -45,6 +45,8 @@ The code (and the choosen features) are inspired by following blogs/papers/repos
 
 ### LSTM
 * http://www.depends-on-the-definition.com/guide-sequence-tagging-neural-networks-python/
+* https://github.com/Akshayc1/named-entity-recognition
+
 
 
 ## Datasets:
