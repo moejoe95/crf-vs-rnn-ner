@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""crf_train, a tool to train the CRF NER system with a given file.
+"""crf_train, a tool to train the CRF NER system with a given conll file.
 
 Usage:
   crf_train.py (-t | --train) <file> (-m | --model) <model>

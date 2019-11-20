@@ -1,23 +1,40 @@
+#!/usr/bin/env python
+"""cnn_test, a tool to test the CNN NER system on a given model on a given file.
+
+Usage:
+  cnn_test.py (-m | --model) <model> (-t | --test) <file>
+  cnn_test.py (-h | --help)
+
+Options:
+  -h --help     Show this screen.
+"""
+
+from docopt import docopt
 import sys
 import conll_parser
 from keras.models import load_model
 import numpy as np
 from sklearn.model_selection import train_test_split
 from cnn_preprocessing import get_padded_seq
+import test_validation
 
+arguments = docopt(__doc__, version='crf_test')
 
-if len(sys.argv) != 2:
-    print("invalid number of arguments")
-    exit(-1)
+test_file = arguments.get('<file>', './data/conll/eng.testa')
+model = arguments.get('<model>', 'cnn.h5')
 
 # parse file
-docs = conll_parser.parse("dataset.conll")
+docs = conll_parser.parse(test_file)
 
-model = load_model(sys.argv[1])
+labels = []
+words = []
+for sentence in docs:
+    for word in sentence:
+        words.append(word[0])
+        labels.append(word[1])
 
-X, y, _, _, _ = get_padded_seq(docs)
+model = load_model(model)
 
-_, X_te, _, y_te = train_test_split(X, y, test_size=0.1)
+X, y, _, _, _ = get_padded_seq(docs, shape=model.output_shape)
 
-p = model.predict(np.array(X_te))
-print(p)
+p = model.predict(np.array([X[0]]))
