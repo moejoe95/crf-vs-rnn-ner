@@ -2,7 +2,7 @@
 """crf_train, a tool to train the CRF NER system with a given conll file.
 
 Usage:
-  crf_train.py (-t | --train) <file> (-m | --model) <model>
+  crf_train.py [(-t | --train) <file>] [(-m | --model) <model>]
   crf_train.py (-h | --help)
 
 Options:
@@ -19,8 +19,12 @@ import pos_tagger
 import os
 
 arguments = docopt(__doc__, version='crf_train')
-train_file = arguments.get('<file>', './data/conll/eng.train')
-model = arguments.get('<model>', 'crf.model')
+
+train_file = arguments.get('<file>')
+train_file = './data/conll/eng.train' if train_file == None else train_file
+model_name = arguments.get('<model>')
+model_name = 'crf.model' if model_name == None else model_name
+
 
 # parse file
 docs, words, labels = conll_parser.parse(train_file)
@@ -46,4 +50,4 @@ trainer.set_params({
 })
 
 # save model to file
-trainer.train(model)
+trainer.train(model_name)
