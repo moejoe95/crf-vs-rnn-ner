@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-"""cnn_test, a tool to test the CNN NER system with a given conll file.
+"""lstm_test, a tool to test the CNN NER system with a given conll file.
 
 Usage:
-  cnn_test.py [(-m | --model) <model>] [(-t | --train) <file>]
-  cnn_test.py (-h | --help)
+  lstm_test.py [(-m | --model) <model>] [(-t | --train) <file>]
+  lstm_test.py (-h | --help)
 
 Options:
   -h --help     Show this screen.
@@ -19,7 +19,7 @@ from keras.models import Model, Input
 from keras.layers import LSTM, Embedding, Dense, TimeDistributed, Dropout, Bidirectional
 from sklearn_crfsuite.metrics import flat_classification_report
 
-arguments = docopt(__doc__, version='cnn_test')
+arguments = docopt(__doc__, version='lstm_test')
 
 test_file = arguments.get('<file>')
 test_file = './data/conll/eng.testa' if test_file == None else test_file
