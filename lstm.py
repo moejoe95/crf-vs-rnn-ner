@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-"""lstm_train, a tool to train and/or test the CNN NER system with a given conll file.
+"""lstm, a tool to train and/or test the CNN NER system with a given conll file.
 
 Usage:
-  lstm_train.py [(-t | --train) <file>]
-  lstm_train.py (-h | --help)
+  lstm.py [(-t | --train) <file>]
+  lstm.py (-h | --help)
 
 Options:
   -h --help     Show this screen.
@@ -19,7 +19,7 @@ from sklearn_crfsuite.metrics import flat_classification_report
 from sklearn.model_selection import train_test_split
 
 
-arguments = docopt(__doc__, version='lstm_train')
+arguments = docopt(__doc__, version='lstm')
 
 test_file = arguments.get('<file>')
 if test_file == None:
@@ -40,7 +40,7 @@ words = list(set(words))
 # Dictionary word:index 
 word2idx = {w : i for i, w in enumerate(words)}
 
-labels2idx = labels = {
+labels2idx = {
     'I-LOC':    0, 
     'B-LOC':    1, 
     'I-PER':    2, 

@@ -2,25 +2,26 @@
 
 ## CRF classification report
 
-### CoNLL 2003 - testa dataset
+### CoNLL 2003
 ```
               precision    recall  f1-score   support
 
-      B-MISC       0.00      0.00      0.00         4
-       I-LOC       0.76      0.48      0.59      2094
-      I-MISC       0.75      0.58      0.66      1264
-       I-ORG       0.57      0.57      0.57      2092
-       I-PER       0.67      0.89      0.76      3149
-           O       0.99      0.99      0.99     42975
+       B-LOC       1.00      1.00      1.00         1
+      B-MISC       0.00      0.00      0.00        11
+       I-LOC       0.61      0.58      0.59      1913
+      I-MISC       0.72      0.63      0.67       966
+       I-ORG       0.59      0.63      0.61      2133
+       I-PER       0.77      0.79      0.78      2540
+           O       0.99      0.99      0.99     37602
 
-    accuracy                           0.93     51578
-   macro avg       0.62      0.58      0.59     51578
-weighted avg       0.93      0.93      0.93     51578
+    accuracy                           0.93     45166
+   macro avg       0.67      0.66      0.66     45166
+weighted avg       0.93      0.93      0.93     45166
 ```
 
 ## LSTM NN classification report
 
-### CoNLL 2003 - testa dataset
+### CoNLL 2003
 
 ```
               precision    recall  f1-score   support
