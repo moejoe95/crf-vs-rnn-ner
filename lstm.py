@@ -1,16 +1,18 @@
 #!/usr/bin/env python
-"""lstm, a tool to train and/or test the CNN NER system with a given conll file.
+"""lstm, a tool to train/test the LSTM NN for NER on a given file.
 
 Usage:
-  lstm.py [(-t | --train) <file>]
+  lstm.py MODELNAME
   lstm.py (-h | --help)
 
 Options:
+  -f --file     Input file with train/test data.
   -h --help     Show this screen.
 """
 from docopt import docopt
 import conll_parser
 import numpy as np
+import os
 from keras.models import Model, Input, load_model
 from keras.layers import LSTM, Embedding, Dense, TimeDistributed, Dropout, Bidirectional, Activation
 from keras.preprocessing.sequence import pad_sequences
@@ -26,6 +28,7 @@ if test_file == None:
   test_file = './data/conll/eng.all'
   print('no file specified, use default:', test_file, '...')
 
+model_name = arguments.get('MODEL')
 
 # parse file
 docs, sentences = conll_parser.parse(test_file)
@@ -35,7 +38,7 @@ words = [w for sen in sentences for w in sen]
 words.append('-PAD-')
 
 # unique
-words = list(set(words))
+words = sorted(list(set(words)))
 
 # Dictionary word:index 
 word2idx = {w : i for i, w in enumerate(words)}
@@ -66,19 +69,27 @@ y = pad_sequences(maxlen = max_len, sequences = y, padding = "post", value = lab
 y = [to_categorical(i, num_classes = len(labels2idx)) for i in y]
 
 # split data
-X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.15)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.15, random_state=42)
 
-# Model architecture
-input = Input(shape=(max_len,))
-model = Embedding(input_dim=len(words), output_dim=50, input_length=max_len)(input)
-model = Dropout(0.1)(model)
-model = Bidirectional(LSTM(units=100, return_sequences=True, recurrent_dropout=0.1))(model)
-out = TimeDistributed(Dense(len(labels2idx), activation="softmax"))(model)  # softmax output layer
-model = Model(input, out)
+model = None
+if not os.path.isfile(model_name):
+  # Model architecture
+  print('train model', model_name, '...')
+  input = Input(shape=(max_len,))
+  model = Embedding(input_dim=len(words), output_dim=max_len, input_length=max_len)(input)
+  model = Dropout(0.1)(model)
+  model = Bidirectional(LSTM(units=100, return_sequences=True, recurrent_dropout=0.1))(model)
+  out = TimeDistributed(Dense(len(labels2idx), activation="softmax"))(model)  # softmax output layer
+  model = Model(input, out)
 
-# compile and fit model
-model.compile(optimizer="rmsprop", loss="categorical_crossentropy", metrics=["accuracy"])
-model.fit(X_tr, np.array(y_tr), batch_size=32, epochs=5, validation_split=0.1, verbose=1)
+  # compile and fit model
+  model.compile(optimizer="rmsprop", loss="categorical_crossentropy", metrics=["accuracy"])
+  model.fit(X_tr, np.array(y_tr), batch_size=64, epochs=1, validation_split=0.1, verbose=1)
+  model.save(model_name)
+
+else:
+  print('load model', model_name, '...')
+  model = load_model(model_name)
 
 # Evaluation
 y_pred = model.predict(X_te)
