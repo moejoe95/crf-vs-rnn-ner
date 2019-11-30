@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-"""crf, a tool to train/test the CRF NER system with a given conll file.
+"""crf, a tool to train/test the CRF NER system on a given file.
 
 Usage:
-  crf.py (-m | --model) <model> [(-t | --train) <file>] 
+  crf.py MODELNAME
   crf.py (-h | --help)
 
 Options:
+  -f --file     Input file with train/test data.
   -h --help     Show this screen.
 """
 
@@ -34,7 +35,7 @@ feature = FeatureGenerator(data)
 features = feature.extract_word_features()
 labels = [feature.get_labels(doc) for doc in data]
 
-X_tr, X_te, y_tr, y_te = train_test_split(features, labels, test_size=0.15)
+X_tr, X_te, y_tr, y_te = train_test_split(features, labels, test_size=0.15, random_state=42)
 
 if not os.path.isfile(model_name):
   trainer = pycrfsuite.Trainer(verbose=True)
