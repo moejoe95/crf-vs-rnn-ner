@@ -95,7 +95,7 @@ if not os.path.isfile(model_name):
   mc = ModelCheckpoint(model_name, monitor='val_accuracy', mode='max', verbose=1, save_best_only=True)
 
   # compile and fit model
-  model.compile(optimizer="rmsprop", loss="categorical_crossentropy", metrics=["accuracy"])
+  model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
   model.fit(X_tr, np.array(y_tr), batch_size=128, epochs=100, validation_split=0.15, verbose=1, callbacks=[es, mc])
   model.save(model_name)
 
