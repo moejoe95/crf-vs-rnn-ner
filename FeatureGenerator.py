@@ -5,9 +5,12 @@ from gensim.models import Word2Vec
 from WordShape import WordShape
 from word2vec import word2vec
 from BrownWrapper import BrownWrapper
-from Gazetteer import Gazetteer
 from LDA import LDA
+
 from nltk import cluster
+from nltk.corpus import wordnet
+from nltk.corpus import words
+from nltk.corpus import names
 
 class FeatureGenerator:
 
@@ -19,6 +22,8 @@ class FeatureGenerator:
     brown_dict = None
     gazetteer = None
     frequency = None
+    wordset = set(words.words())
+    nameset = set(names.words())
 
     def __init__(self, data):
         self.data = data
@@ -38,9 +43,6 @@ class FeatureGenerator:
         brown_wrapper = BrownWrapper(data)
         self.brown_dict = brown_wrapper.get_brown_clustering()
 
-        print('init gazetteer ...')
-        self.gazetteer = Gazetteer(data)
-
         print('train LDA topic clustering ...')
         self.lda = LDA(self.tokens)
 
@@ -51,6 +53,10 @@ class FeatureGenerator:
         
         # word features
         word = doc[index][0]
+        syns = wordnet.synsets(word)
+        specificness = 0
+        if len(syns) > 0:
+            specificness = len(syns[0].hypernym_paths()[0])
         feat = [
             'bias',
             'word.len=%s' % len(word),
@@ -69,6 +75,9 @@ class FeatureGenerator:
             'word.browncluster=%s' % self.brown_dict[word][2],
             #'word.gazetteer=%s' % self.gazetteer.gazetteer.get(word, 0),
             'word.ldatopic=%s' % self.lda.lda.get(word, -1),
+            'word.inwordlist=%s' % (word in self.wordset),
+            'word.innamelist=%s' % (word in self.nameset),
+            'word.specificness=%s' % specificness,
             'postag=' + doc[index][1]
         ]
 
