@@ -31,10 +31,9 @@ if test_file == None:
   print('no file specified, use default:', test_file, '...')
 
 model_name = arguments.get('MODELNAME')
-print(model_name)
 
 # parse file
-docs, words, lables = conll_parser.parse(test_file)
+docs, words, labels = conll_parser.parse(test_file)
 
 # flatten 2D lists
 words = [w for sen in words for w in sen]
@@ -53,15 +52,17 @@ word2idx = {w : i for i, w in enumerate(words)}
 labels2idx = {w : i for i, w in enumerate(labels)}
 idx2label = {i: w for w, i in labels2idx.items()}
 
-max_len = 100 # hard coded max length of sentence
+# get longest sentence
+max_len = len(max(words, key=len)) + 1
 
-# words
 X = [[word2idx[w[0]] for w in s] for s in docs]
-X = pad_sequences(maxlen = max_len, sequences = X, padding = "post", value = word2idx['-PAD-'])
-
-# labels
 y = [[labels2idx[w[1]] for w in s] for s in docs]
+
+# pad sentences to length of max_len
+X = pad_sequences(maxlen = max_len, sequences = X, padding = "post", value = word2idx['-PAD-'])
 y = pad_sequences(maxlen = max_len, sequences = y, padding = "post", value = labels2idx['-PAD-'])
+
+# convert labels to categories
 y = [to_categorical(i, num_classes = len(labels2idx)) for i in y]
 
 # split data
