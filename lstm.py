@@ -19,6 +19,8 @@ from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
 from sklearn_crfsuite.metrics import flat_classification_report
 from sklearn.model_selection import train_test_split
+from keras.callbacks import EarlyStopping
+from keras.callbacks import ModelCheckpoint
 
 
 arguments = docopt(__doc__, version='lstm')
@@ -89,9 +91,12 @@ if not os.path.isfile(model_name):
   out = TimeDistributed(Dense(len(labels2idx), activation="softmax"))(model)  # softmax output layer
   model = Model(input, out)
 
+  es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5)
+  mc = ModelCheckpoint(model_name, monitor='val_accuracy', mode='max', verbose=1, save_best_only=True)
+
   # compile and fit model
   model.compile(optimizer="rmsprop", loss="categorical_crossentropy", metrics=["accuracy"])
-  model.fit(X_tr, np.array(y_tr), batch_size=32, epochs=5, validation_split=0.1, verbose=1)
+  model.fit(X_tr, np.array(y_tr), batch_size=128, epochs=100, validation_split=0.15, verbose=1, callbacks=[es, mc])
   model.save(model_name)
 
 else:
