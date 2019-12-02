@@ -28,7 +28,8 @@ if test_file == None:
   test_file = './data/conll/eng.all'
   print('no file specified, use default:', test_file, '...')
 
-model_name = arguments.get('MODEL')
+model_name = arguments.get('MODELNAME')
+print(model_name)
 
 # parse file
 docs, sentences = conll_parser.parse(test_file)
@@ -38,7 +39,7 @@ words = [w for sen in sentences for w in sen]
 words.append('-PAD-')
 
 # unique
-words = sorted(list(set(words)))
+words = sorted(list(set(words))) # sorted is important here, otherwise the saved model can't be used again
 
 # Dictionary word:index 
 word2idx = {w : i for i, w in enumerate(words)}
@@ -75,16 +76,22 @@ model = None
 if not os.path.isfile(model_name):
   # Model architecture
   print('train model', model_name, '...')
+
+  embedding_out_size = 256
+  dropout_rate = 0.2
+  dropout_rate_recurrent = 0.1
+  lstm_out_size = 50
+
   input = Input(shape=(max_len,))
-  model = Embedding(input_dim=len(words), output_dim=max_len, input_length=max_len)(input)
-  model = Dropout(0.1)(model)
-  model = Bidirectional(LSTM(units=100, return_sequences=True, recurrent_dropout=0.1))(model)
+  model = Embedding(input_dim=len(words), output_dim=embedding_out_size, input_length=max_len)(input)
+  model = Dropout(dropout_rate)(model)
+  model = Bidirectional(LSTM(units=lstm_out_size, return_sequences=True, recurrent_dropout=dropout_rate_recurrent))(model)
   out = TimeDistributed(Dense(len(labels2idx), activation="softmax"))(model)  # softmax output layer
   model = Model(input, out)
 
   # compile and fit model
   model.compile(optimizer="rmsprop", loss="categorical_crossentropy", metrics=["accuracy"])
-  model.fit(X_tr, np.array(y_tr), batch_size=64, epochs=1, validation_split=0.1, verbose=1)
+  model.fit(X_tr, np.array(y_tr), batch_size=32, epochs=5, validation_split=0.1, verbose=1)
   model.save(model_name)
 
 else:
