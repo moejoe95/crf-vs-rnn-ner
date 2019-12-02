@@ -19,15 +19,16 @@ import pos_tagger
 import os
 from sklearn_crfsuite.metrics import flat_classification_report
 from sklearn.model_selection import train_test_split
+import Constants
 
 arguments = docopt(__doc__, version='crf')
 
 train_file = arguments.get('<file>')
 train_file = './data/conll/eng.all' if train_file == None else train_file
-model_name = arguments.get('<model>')
+model_name = arguments.get('MODELNAME')
 
 # parse file
-docs, words = conll_parser.parse(train_file)
+docs, _, _ = conll_parser.parse(train_file)
 
 # do pos tagging, as part of feature extraction
 data = pos_tagger.tag(docs)
@@ -35,10 +36,11 @@ feature = FeatureGenerator(data)
 features = feature.extract_word_features()
 labels = [feature.get_labels(doc) for doc in data]
 
-X_tr, X_te, y_tr, y_te = train_test_split(features, labels, test_size=0.15, random_state=42)
+X_tr, X_te, y_tr, y_te = train_test_split(features, labels, test_size=Constants.TEST_SPLIT, random_state=Constants.RAND_SEED)
 
 if not os.path.isfile(model_name):
-  trainer = pycrfsuite.Trainer(verbose=True)
+  verb = True if Constants.VERBOSE == 1 else False
+  trainer = pycrfsuite.Trainer(verbose=verb)
 
   # Submit training data to the trainer
   for xseq, yseq in zip(X_tr, y_tr):

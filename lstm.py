@@ -21,7 +21,7 @@ from sklearn_crfsuite.metrics import flat_classification_report
 from sklearn.model_selection import train_test_split
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
-
+import Constants
 
 arguments = docopt(__doc__, version='lstm')
 
@@ -34,30 +34,23 @@ model_name = arguments.get('MODELNAME')
 print(model_name)
 
 # parse file
-docs, sentences = conll_parser.parse(test_file)
+docs, words, lables = conll_parser.parse(test_file)
 
 # flatten 2D lists
-words = [w for sen in sentences for w in sen]
+words = [w for sen in words for w in sen]
 words.append('-PAD-')
+
+labels = [l for sen in labels for l in sen]
+labels.append('-PAD-')
 
 # unique
 words = sorted(list(set(words))) # sorted is important here, otherwise the saved model can't be used again
+labels = sorted(list(set(labels)))
 
 # Dictionary word:index 
 word2idx = {w : i for i, w in enumerate(words)}
 
-labels2idx = {
-    'I-LOC':    0, 
-    'B-LOC':    1, 
-    'I-PER':    2, 
-    'B-PER':    3,
-    'I-ORG':    4,
-    'B-ORG':    5, 
-    'I-MISC':   6,
-    'B-MISC':   7, 
-    'O':        8,
-    '-PAD-':    9
-}
+labels2idx = {w : i for i, w in enumerate(labels)}
 idx2label = {i: w for w, i in labels2idx.items()}
 
 max_len = 100 # hard coded max length of sentence
@@ -72,7 +65,7 @@ y = pad_sequences(maxlen = max_len, sequences = y, padding = "post", value = lab
 y = [to_categorical(i, num_classes = len(labels2idx)) for i in y]
 
 # split data
-X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.15, random_state=42)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=Constants.TEST_SPLIT, random_state=Constants.RAND_SEED)
 
 model = None
 if not os.path.isfile(model_name):
@@ -92,11 +85,12 @@ if not os.path.isfile(model_name):
   model = Model(input, out)
 
   es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=5)
-  mc = ModelCheckpoint(model_name, monitor='val_accuracy', mode='max', verbose=1, save_best_only=True)
+  mc = ModelCheckpoint(model_name, monitor='val_accuracy', mode='max', verbose=Constants.VERBOSE, save_best_only=True)
 
   # compile and fit model
   model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
-  model.fit(X_tr, np.array(y_tr), batch_size=128, epochs=100, validation_split=0.15, verbose=1, callbacks=[es, mc])
+  model.fit(X_tr, np.array(y_tr), batch_size=128, epochs=100, validation_split=Constants.TEST_SPLIT, 
+    verbose=Constants.VERBOSE, callbacks=[es, mc])
   model.save(model_name)
 
 else:
