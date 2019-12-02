@@ -1,6 +1,6 @@
-# Comparing CRF and LSTM NN for Named Entity Recognition (NER)
+# Comparing CRF and Bidirectional LSTM Neural Network for Named Entity Recognition (NER)
 
-Goal of this project is to compare the performance of conditional random fields (CRF) with a deep learning approach (LSTM NN) for named entity recognition (NER).
+Goal of this project is to compare the performance of conditional random fields (CRF) with a deep learning approach (Biderectional Long-Short-Term-Memory Neural Network) for named entity recognition (NER).
 
 
 ## Features used for CRF
@@ -39,9 +39,10 @@ The code (and the choosen features) are inspired by following blogs/papers/repos
 * https://stackabuse.com/python-for-nlp-topic-modeling/
 
 
-### LSTM
+### Bidirectional LSTM NN
 * http://www.depends-on-the-definition.com/guide-sequence-tagging-neural-networks-python/
 * https://github.com/Akshayc1/named-entity-recognition
+* https://adventuresinmachinelearning.com/keras-lstm-tutorial/
 
 ## Results
 
