@@ -55,8 +55,11 @@ class FeatureGenerator:
         word = doc[index][0]
         syns = wordnet.synsets(word)
         specificness = 0
+        hypernym = 'nothing'
         if len(syns) > 0:
             specificness = len(syns[0].hypernym_paths()[0])
+            if len(syns[0].hypernym_paths()) > 0 and len(syns[0].hypernym_paths()[0]) > 2:
+                hypernym = syns[0].hypernym_paths()[0][2]
         feat = [
             'bias',
             'word.len=%s' % len(word),
@@ -78,6 +81,7 @@ class FeatureGenerator:
             'word.inwordlist=%s' % (word in self.wordset),
             'word.innamelist=%s' % (word in self.nameset),
             'word.specificness=%s' % specificness,
+            #'word.hypernym=%s' % hypernym,
             'postag=' + doc[index][1]
         ]
 
