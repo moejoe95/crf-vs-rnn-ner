@@ -1,6 +1,6 @@
 numpy==1.17.2
 sklearn_crfsuite==0.3.6
-nltk==3.2.2
+nltk==3.4.5
 keras_contrib==2.0.8
 Keras==2.3.1
 docopt==0.6.2
