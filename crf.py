@@ -20,6 +20,7 @@ import os
 from sklearn_crfsuite.metrics import flat_classification_report
 from sklearn.model_selection import train_test_split
 import Constants
+import reports
 
 arguments = docopt(__doc__, version='crf')
 
@@ -63,3 +64,8 @@ y_pred = [tagger.tag(xseq) for xseq in X_te]
 
 report = flat_classification_report(y_pred=y_pred, y_true=y_te)
 print(report)
+
+prec, rec, f1 = reports.metrics(y_pred, y_te)
+print('precision =', prec)
+print('recall =', rec)
+print('f1 =', f1)

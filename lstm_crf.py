@@ -26,6 +26,7 @@ from keras_contrib.layers import CRF
 from keras_contrib.utils import save_load_utils
 from keras_contrib.losses import crf_loss
 from keras_contrib.metrics import crf_viterbi_accuracy
+import reports
 
 arguments = docopt(__doc__, version='lstm_crf')
 
@@ -102,11 +103,16 @@ else:
 # Evaluation
 y_pred = model.predict(X_te)
 y_pred = np.argmax(y_pred, axis=-1)
-y_test_true = np.argmax(y_te, axis=-1)
+y_test_act = np.argmax(y_te, axis=-1)
 
 y_pred = [[idx2label[i] for i in row] for row in y_pred]
-y_test_true = [[idx2label[i] for i in row] for row in y_test_true]
+y_test_act = [[idx2label[i] for i in row] for row in y_test_act]
 
 # print report
-report = flat_classification_report(y_pred=y_pred, y_true=y_test_true)
+report = flat_classification_report(y_pred=y_pred, y_true=y_test_act)
 print(report)
+
+prec, rec, f1 = reports.metrics(y_pred, y_test_act)
+print('precision =', prec)
+print('recall =', rec)
+print('f1 =', f1)
