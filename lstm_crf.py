@@ -109,10 +109,7 @@ y_pred = [[idx2label[i] for i in row] for row in y_pred]
 y_test_act = [[idx2label[i] for i in row] for row in y_test_act]
 
 # print report
-report = flat_classification_report(y_pred=y_pred, y_true=y_test_act)
-print(report)
+#report = flat_classification_report(y_pred=y_pred, y_true=y_test_act)
+#print(report)
 
-prec, rec, f1 = reports.metrics(y_pred, y_test_act)
-print('precision =', prec)
-print('recall =', rec)
-print('f1 =', f1)
+reports.print_conll_report(y_pred, y_test_act)

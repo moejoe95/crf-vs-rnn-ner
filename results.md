@@ -3,6 +3,8 @@
 ## CRF classification report
 
 ### CoNLL 2003
+
+### sklearn flat_classification_reports
 ```
               precision    recall  f1-score   support
 
@@ -19,10 +21,26 @@
 weighted avg       0.97      0.97      0.97     45301
 ```
 
-## BI-LSTM NN classification report
+### Custom performance report
+
+```
+performance per token:
+        precision:       0.455
+        recall:          0.937
+        f1:              0.613
+
+
+performance per named entity:
+        precision:       0.426
+        recall:          0.922
+        f1:              0.583
+```
+
+## BI-LSTM NN classification reports
 
 ### CoNLL 2003
 
+### sklearn flat_classification_report
 ```
               precision    recall  f1-score   support
 
@@ -40,8 +58,25 @@ weighted avg       0.97      0.97      0.97     45301
 weighted avg       1.00      1.00      1.00    332100
 ```
 
-## BI-LSTM-CRF NN classification report
+### Custom performance report
 
+```
+performance per token:
+        precision:       0.997
+        recall:          0.996
+        f1:              0.996
+
+
+performance per named entity:
+        precision:       0.924
+        recall:          0.906
+        f1:              0.915
+```
+
+## BI-LSTM-CRF NN classification reports
+
+
+### sklearn flat_classification_report
 ```
               precision    recall  f1-score   support
 
@@ -57,4 +92,19 @@ weighted avg       1.00      1.00      1.00    332100
     accuracy                           0.99    205902
    macro avg       0.69      0.62      0.65    205902
 weighted avg       0.99      0.99      0.99    205902
+```
+
+### Custom performance report
+
+```
+performance per token:
+        precision:       0.994
+        recall:          0.995
+        f1:              0.995
+
+
+performance per named entity:
+        precision:       0.858
+        recall:          0.892
+        f1:              0.874
 ```
