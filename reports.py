@@ -3,6 +3,10 @@ def metrics_per_token(y_pred, y_act):
     tp = tn = fp = fn = 0
     for i, pred_label_sen in enumerate(y_pred):
         for j, pred_label in enumerate(pred_label_sen):
+
+            if y_act[i][j] == '-PAD-' and pred_label == '-PAD-': 
+                continue
+
             if pred_label == y_act[i][j] and pred_label != 'O':
                 tp += 1
             elif pred_label == y_act[i][j] and pred_label == 'O':
@@ -15,11 +19,16 @@ def metrics_per_token(y_pred, y_act):
                 print('error: invalid data')
                 return 0, 0, 0
 
-    prec = tp / (tp + fp)
-    rec = tp / (tp + fn)
-    f1 = 2 * prec * rec/ (prec + rec)
+    prec = rec = f1 = 0
+    if tp + fp != 0:
+        prec = tp / (tp + fp)
+    if tp + fn != 0:
+        rec = tp / (tp + fn)
+    if prec + rec != 0:
+        f1 = 2 * prec * rec/ (prec + rec)
     return prec, rec, f1
 
+# see test-report for problems in this function
 def metrics_per_ne(y_pred, y_act):
     tp = tn = fp = fn = 0
     for i, pred_label_sen in enumerate(y_pred):
@@ -42,7 +51,7 @@ def metrics_per_ne(y_pred, y_act):
             len_ne -= 1
             if len_ne <= 0:
                 if pred_label == y_act[i][j] and pred_label != 'O':
-                        tp += 1
+                    tp += 1
                 elif pred_label == y_act[i][j] and pred_label == 'O':
                     tn += 1
                 elif pred_label != y_act[i][j] and pred_label != 'O':
@@ -52,9 +61,13 @@ def metrics_per_ne(y_pred, y_act):
                 else:
                     print('error: invalid data')
 
-    prec = tp / (tp + fp)
-    rec = tp / (tp + fn)
-    f1 = 2 * prec * rec/ (prec + rec)
+    prec = rec = f1 = 0
+    if tp + fp != 0:
+        prec = tp / (tp + fp)
+    if tp + fn != 0:
+        rec = tp / (tp + fn)
+    if prec + rec != 0:
+        f1 = 2 * prec * rec/ (prec + rec)
     return prec, rec, f1
 
 

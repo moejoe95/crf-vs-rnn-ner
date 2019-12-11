@@ -25,15 +25,15 @@ weighted avg       0.97      0.97      0.97     45301
 
 ```
 performance per token:
-        precision:       0.455
-        recall:          0.937
-        f1:              0.613
+        precision:       0.873
+        recall:          0.958
+        f1:              0.914
 
 
 performance per named entity:
-        precision:       0.426
-        recall:          0.922
-        f1:              0.583
+        precision:       0.863
+        recall:          0.965
+        f1:              0.911
 ```
 
 ## BI-LSTM NN classification reports
@@ -63,14 +63,14 @@ weighted avg       1.00      1.00      1.00    332100
 ```
 performance per token:
         precision:       0.997
-        recall:          0.996
+        recall:          0.995
         f1:              0.996
 
 
 performance per named entity:
-        precision:       0.924
-        recall:          0.906
-        f1:              0.915
+        precision:       0.933
+        recall:          0.904
+        f1:              0.918
 ```
 
 ## BI-LSTM-CRF NN classification reports
@@ -98,13 +98,13 @@ weighted avg       0.99      0.99      0.99    205902
 
 ```
 performance per token:
-        precision:       0.994
-        recall:          0.995
-        f1:              0.995
+        precision:       0.993
+        recall:          0.998
+        f1:              0.996
 
 
 performance per named entity:
-        precision:       0.858
-        recall:          0.892
-        f1:              0.874
+        precision:       0.825
+        recall:          0.967
+        f1:              0.89
 ```
