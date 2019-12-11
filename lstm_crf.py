@@ -91,7 +91,7 @@ model = Model(input, out)
 
 if not os.path.isfile(model_name):
     model.compile(optimizer="rmsprop", loss=crf.loss_function, metrics=[crf.accuracy])
-    history = model.fit(X_tr, np.array(y_tr), batch_size=128, epochs=2, validation_split=0.1, verbose=1)
+    history = model.fit(X_tr, np.array(y_tr), batch_size=32, epochs=12, validation_split=0.1, verbose=1)
     model.save(model_name)
 else:
     custom_objects = {'CRF': CRF,
