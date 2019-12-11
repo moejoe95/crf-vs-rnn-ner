@@ -1,0 +1,27 @@
+\begin{thebibliography}{1}
+
+\bibitem{conll-sota}
+{CoNLL - State of the art}.
+\newblock \url{https://aclweb.org/aclwiki/CONLL-2003\_(State\_of\_the\_art)}.
+\newblock Accessed: 2019-12-11.
+
+\bibitem{lafferty2001conditional}
+John Lafferty, Andrew McCallum, and Fernando~CN Pereira.
+\newblock Conditional random fields: Probabilistic models for segmenting and
+  labeling sequence data.
+\newblock 2001.
+
+\bibitem{MAL-013}
+Charles Sutton and Andrew McCallum.
+\newblock An introduction to conditional random fields.
+\newblock {\em Foundations and Trends® in Machine Learning}, 4(4):267--373,
+  2012.
+
+\bibitem{tjongkimsang2003conll}
+Erik~F. Tjong Kim~Sang and Fien De~Meulder.
+\newblock Introduction to the conll-2003 shared task: Language-independent
+  named entity recognition.
+\newblock In Walter Daelemans and Miles Osborne, editors, {\em Proceedings of
+  CoNLL-2003}, pages 142--147. Edmonton, Canada, 2003.
+
+\end{thebibliography}

@@ -1,4 +1,4 @@
-This is LuaTeX, Version 1.10.0 (TeX Live 2019/Arch Linux)  (format=lualatex 2019.11.28)  4 DEC 2019 19:46
+This is LuaTeX, Version 1.10.0 (TeX Live 2019/Arch Linux)  (format=lualatex 2019.11.28)  11 DEC 2019 17:04
  restricted system commands enabled.
 **thesis.tex
 (./thesis.tex
@@ -55,7 +55,7 @@ Lua module: luaotfload-multiscript 2019-09-13 3.00 luaotfload submodule / multis
 cript
 Inserting `luaotfload.rewrite_fontname' at position 5 in `luaotfload.patch_font'
 .
-luaotfload | main : initialization completed in 0.110 seconds
+luaotfload | main : initialization completed in 0.111 seconds
 (/usr/share/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2019/08/27 v1.4j Standard LaTeX document class
 (/usr/share/texmf-dist/tex/latex/base/bk12.clo
@@ -110,7 +110,14 @@ LaTeX Font Info:    ... okay on input line 9.
 ] [4
 
 ]
-(./thesis.toc)
+(./thesis.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 4.
+)
 \tf@toc=\write3
 
 \openout3 = thesis.toc
@@ -124,11 +131,11 @@ Chapter 1.
 
 ]
 Chapter 2.
-[3] [4
-
-]
+[3] [4]
 Chapter 3.
-[5] [6
+[5
+
+] [6
 
 ]
 Chapter 4.
@@ -136,26 +143,50 @@ Chapter 4.
 
 ]
 Chapter 5.
-[9] (./thesis.aux))
+(./thesis.bbl [9] [10
+
+]
+! Undefined control sequence.
+l.5 \newblock \url
+                {https://aclweb.org/aclwiki/CONLL-2003\_(State\_of\_the\_art)}.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4--7
+[]\TU/lmr/m/n/12 CoNLL - State of the art.  https://aclweb.org/aclwiki/CONLL-
+ []
+
+) [11] (./thesis.aux))
 
 Here is how much of LuaTeX's memory you used:
- 391 strings out of 493864
+ 435 strings out of 493864
  100000,106986 words of node,token memory allocated
- 382 words of node memory still in use:
-   2 hlist, 1 vlist, 1 rule, 2 glue, 3 kern, 1 glyph, 4 attribute, 45 glue_spec,
- 4 attribute_list, 1 write nodes
-   avail lists: 2:53,3:33,4:7,5:41,6:7,7:330,9:30,10:6,11:28
- 5118 multiletter control sequences out of 65536+600000
- 21 fonts using 1512615 bytes
- 25i,4n,23p,149b,155s stack positions out of 5000i,500n,10000p,200000b,100000s
-</usr/share/texmf-dist/fonts/opentype/public/lm/lmromanslant12-regular.otf></usr
-/share/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf></usr/share/texmf-
-dist/fonts/opentype/public/lm/lmromancaps10-regular.otf></usr/share/texmf-dist/f
-onts/opentype/public/lm/lmroman12-regular.otf>
-Output written on thesis.pdf (15 pages, 24263 bytes).
+ 406 words of node memory still in use:
+   2 hlist, 1 vlist, 1 rule, 2 glue, 3 kern, 1 glyph, 10 attribute, 45 glue_spec
+, 10 attribute_list, 1 write nodes
+   avail lists: 2:201,3:82,4:11,5:112,6:19,7:1604,8:40,9:110,10:10,11:126
+ 5139 multiletter control sequences out of 65536+600000
+ 35 fonts using 2661583 bytes
+ 25i,4n,23p,570b,157s stack positions out of 5000i,500n,10000p,200000b,100000s
+</usr/share/texmf-dist/fonts/opentype/public/lm/lmroman12-italic.otf></usr/share
+/texmf-dist/fonts/opentype/public/lm/lmromanslant12-regular.otf></usr/share/texm
+f-dist/fonts/opentype/public/lm/lmroman12-bold.otf></usr/share/texmf-dist/fonts/
+opentype/public/lm/lmromancaps10-regular.otf></usr/share/texmf-dist/fonts/openty
+pe/public/lm/lmroman12-regular.otf></usr/share/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12
+.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8
+.pfb>
+Output written on thesis.pdf (17 pages, 96590 bytes).
 
-PDF statistics: 80 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
+PDF statistics: 121 PDF objects out of 1000 (max. 8388607)
+ 79 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
