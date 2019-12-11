@@ -32,34 +32,36 @@ def metrics_per_token(y_pred, y_act):
 def metrics_per_ne(y_pred, y_act):
     tp = tn = fp = fn = 0
     for i, pred_label_sen in enumerate(y_pred):
-        len_ne = 0
-        for j, pred_label in enumerate(pred_label_sen):
+        j = 0
+        while j < len(pred_label_sen):
+            pred_label = y_pred[i][j]
 
             if y_act[i][j] == '-PAD-': 
+                j += 1
                 continue
 
-            if y_act[i][j] != 'O' and y_act[i][j] != '-PAD-':
+            if y_act[i][j] != 'O':
                 k = j
-                while(y_act[i][k] != 'O' and y_act[i][k]!= '-PAD-'):
+                while y_act[i][j] == y_act[i][k]:
                     k += 1
-                    if k == len(pred_label_sen):
+                    if k == len(pred_label_sen) or y_act[i][k] == '-PAD-':
                         break
-                len_ne = k - j
-            else:
-                len_ne = 0
 
-            len_ne -= 1
-            if len_ne <= 0:
-                if pred_label == y_act[i][j] and pred_label != 'O':
+                isExact = True
+                for l in range(k - j):
+                    if y_pred[i][j+l] != y_act[i][j+l]:
+                        isExact = False
+                if isExact:
                     tp += 1
-                elif pred_label == y_act[i][j] and pred_label == 'O':
-                    tn += 1
-                elif pred_label != y_act[i][j] and pred_label != 'O':
-                    fp += 1
-                elif pred_label != y_act[i][j] and pred_label == 'O':
-                    fn += 1
                 else:
-                    print('error: invalid data')
+                    fp += 1
+                j = k - 1
+            else:
+                if pred_label == y_act[i][j]:
+                    tn += 1
+                elif pred_label != y_act[i][j]:
+                    fn += 1
+            j += 1
 
     prec = rec = f1 = 0
     if tp + fp != 0:
