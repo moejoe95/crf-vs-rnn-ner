@@ -62,7 +62,7 @@ tagger.open(model_name)
 
 y_pred = [tagger.tag(xseq) for xseq in X_te]
 
-#report = flat_classification_report(y_pred=y_pred, y_true=y_te)
-#print(report)
+report = flat_classification_report(y_pred=y_pred, y_true=y_te)
+print(report)
 
 reports.print_conll_report(y_pred, y_te)

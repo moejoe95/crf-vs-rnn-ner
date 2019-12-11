@@ -96,7 +96,7 @@ class FeatureGenerator:
             feat.append('EOS=0')
         else:
             feat.append('EOS=1')
-
+        return feat 
 
     def word2features(self, doc, i):
         features = self.get_features(doc, i)
