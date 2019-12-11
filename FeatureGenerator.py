@@ -85,15 +85,17 @@ class FeatureGenerator:
         ]
 
         # context features
-        
         if index > 0:
-            prev_word = doc[index-1][0]
-            #feat.append('word[-1].browncluster=%s' % self.brown_dict[prev_word][2])
+            feat.append('-1:postag=' + doc[index-1][1])
+            feat.append('BOS=0')
+        else:
+            feat.append('BOS=1')
 
         if index < len(doc)-1:
-            next_word = doc[index+1][0]
-
-        return feat
+            feat.append('+1:postag=' + doc[index+1][1])
+            feat.append('EOS=0')
+        else:
+            feat.append('EOS=1')
 
 
     def word2features(self, doc, i):
