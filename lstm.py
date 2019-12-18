@@ -2,12 +2,13 @@
 """lstm, a tool to train/test the LSTM NN for NER on a given file.
 
 Usage:
-  lstm.py MODELNAME
+  lstm.py MODELNAME [--rand=<samplesize>]
   lstm.py (-h | --help)
 
 Options:
-  -f --file     Input file with train/test data.
-  -h --help     Show this screen.
+  -f --file             Input file with train/test data.
+  --rand=<samplesize>   Size of random sample [defaults: 5].
+  -h --help             Show this screen.
 """
 from docopt import docopt
 import conll_parser
@@ -16,7 +17,7 @@ import os
 from keras.models import Model, Input, load_model
 from keras.layers import LSTM, Embedding, Dense, TimeDistributed, Dropout, Bidirectional, Activation
 from keras.preprocessing.sequence import pad_sequences
-from keras.utils import to_categorical
+from keras.utils import to_categorical, plot_model
 from sklearn_crfsuite.metrics import flat_classification_report
 from sklearn.model_selection import train_test_split
 from keras.callbacks import EarlyStopping
@@ -32,9 +33,13 @@ if test_file == None:
   print('no file specified, use default:', test_file, '...')
 
 model_name = arguments.get('MODELNAME')
+rand = arguments.get('--rand')
 
 # parse file
 docs, words, labels = conll_parser.parse(test_file)
+
+if rand is not None:
+  docs = conll_parser.filter_parsed(docs, rand)
 
 # flatten 2D lists
 words = [w for sen in words for w in sen]
@@ -69,6 +74,10 @@ y = [to_categorical(i, num_classes = len(labels2idx)) for i in y]
 # split data
 X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=Constants.TEST_SPLIT, random_state=Constants.RAND_SEED)
 
+if rand is not None:
+  X_te = X
+  y_te = y
+
 model = None
 if not os.path.isfile(model_name):
   # Model architecture
@@ -99,6 +108,9 @@ else:
   print('load model', model_name, '...')
   model = load_model(model_name)
 
+
+#plot_model(model, to_file='lstm.png')
+
 # Evaluation
 y_pred = model.predict(X_te)
 y_pred = np.argmax(y_pred, axis=-1)
@@ -108,7 +120,11 @@ y_pred = [[idx2label[i] for i in row] for row in y_pred]
 y_test_act = [[idx2label[i] for i in row] for row in y_test_act]
 
 # print report
-report = flat_classification_report(y_pred=y_pred, y_true=y_test_act)
-print(report)
+if rand is None:
+  report = flat_classification_report(y_pred=y_pred, y_true=y_test_act)
+  print(report)
 
-reports.print_conll_report(y_pred, y_test_act)
+  reports.print_conll_report(y_pred, y_test_act)
+else:
+  reports.rand_pretty_print(docs, y_pred)
+

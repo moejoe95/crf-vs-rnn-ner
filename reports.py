@@ -86,3 +86,16 @@ def print_conll_report(y_pred, y_act):
     print('\tprecision:\t', round(prec, 3))
     print('\trecall:\t\t', round(rec, 3))
     print('\tf1:\t\t', round(f1, 3))
+
+def rand_pretty_print(docs, y_pred):
+    print('\n')
+    sent = ''
+    for i, doc in enumerate(docs):
+        for j, word in enumerate(doc):
+            sent += word[0] + ' '
+            if y_pred[i][j] != 'O':
+                sent += '[' + y_pred[i][j] + '] '
+
+        print(sent)
+        print('\n')
+        sent = ''

@@ -2,12 +2,13 @@
 """crf, a tool to train/test the CRF NER system on a given file.
 
 Usage:
-  crf.py MODELNAME
+  crf.py MODELNAME  [--rand=<samplesize>]
   crf.py (-h | --help)
 
 Options:
-  -f --file     Input file with train/test data.
-  -h --help     Show this screen.
+  -f --file             Input file with train/test data.
+  --rand=<samplesize>   Size of random sample [defaults: 5].
+  -h --help             Show this screen.
 """
 
 from docopt import docopt
@@ -21,15 +22,20 @@ from sklearn_crfsuite.metrics import flat_classification_report
 from sklearn.model_selection import train_test_split
 import Constants
 import reports
+import random
 
 arguments = docopt(__doc__, version='crf')
 
 train_file = arguments.get('<file>')
 train_file = './data/conll/eng.all' if train_file == None else train_file
 model_name = arguments.get('MODELNAME')
+rand = arguments.get('--rand')
 
 # parse file
 docs, _, _ = conll_parser.parse(train_file)
+
+if rand is not None:
+  docs = conll_parser.filter_parsed(docs, rand)
 
 # do pos tagging, as part of feature extraction
 data = pos_tagger.tag(docs)
@@ -38,6 +44,10 @@ features = feature.extract_word_features()
 labels = [feature.get_labels(doc) for doc in data]
 
 X_tr, X_te, y_tr, y_te = train_test_split(features, labels, test_size=Constants.TEST_SPLIT, random_state=Constants.RAND_SEED)
+
+if rand is not None:
+  X_te = features
+  y_te = labels
 
 if not os.path.isfile(model_name):
   verb = True if Constants.VERBOSE == 1 else False
@@ -62,7 +72,10 @@ tagger.open(model_name)
 
 y_pred = [tagger.tag(xseq) for xseq in X_te]
 
-report = flat_classification_report(y_pred=y_pred, y_true=y_te)
-print(report)
+if rand is None:
+  report = flat_classification_report(y_pred=y_pred, y_true=y_te)
+  print(report)
 
-reports.print_conll_report(y_pred, y_te)
+  reports.print_conll_report(y_pred, y_te)
+else:
+  reports.rand_pretty_print(docs, y_pred)

@@ -1,5 +1,6 @@
 # parser for conll files
 import re
+import random
 
 def parse(filename):
     words = []
@@ -23,3 +24,14 @@ def parse(filename):
             w.append(word_label[0].strip())
             l.append(word_label[len(word_label)-1].strip())
     return docs, words, labels
+
+
+def filter_parsed(docs, rand):
+    rand_docs = []
+    count = len(docs)
+    rand_lines = []
+    for i in range(0, int(rand)):
+        rand_lines.append(random.randint(0, count))
+    for i in rand_lines:
+        rand_docs.append(docs[i])
+    return rand_docs
