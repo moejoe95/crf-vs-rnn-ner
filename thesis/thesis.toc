@@ -1,18 +1,17 @@
 \contentsline {chapter}{Abstract}{iii}% 
 \contentsline {chapter}{\numberline {1}Introduction}{1}% 
 \contentsline {chapter}{\numberline {2}Background \& Related Work}{3}% 
-\contentsline {section}{\numberline {2.1}Background}{3}% 
-\contentsline {subsection}{\numberline {2.1.1}Named Entity Recognition}{3}% 
-\contentsline {subsection}{\numberline {2.1.2}Conditional Random Fields}{3}% 
-\contentsline {subsection}{\numberline {2.1.3}LSTM Neural Networks}{4}% 
-\contentsline {section}{\numberline {2.2}Related Work}{4}% 
-\contentsline {chapter}{\numberline {3}Method}{5}% 
-\contentsline {section}{\numberline {3.1}Dataset}{5}% 
-\contentsline {section}{\numberline {3.2}Implementation}{5}% 
-\contentsline {subsection}{\numberline {3.2.1}Conditional Random Fields}{5}% 
-\contentsline {subsection}{\numberline {3.2.2}BI-LSTM Network}{5}% 
-\contentsline {subsection}{\numberline {3.2.3}BI-LSTM-CRF Network}{5}% 
-\contentsline {chapter}{\numberline {4}Evaluation \& Comparison}{7}% 
-\contentsline {section}{\numberline {4.1}Results}{7}% 
-\contentsline {chapter}{\numberline {5}Conclusion}{9}% 
-\contentsline {chapter}{Bibliography}{11}% 
+\contentsline {section}{\numberline {2.1}Named Entity Recognition}{3}% 
+\contentsline {section}{\numberline {2.2}Conditional Random Fields}{4}% 
+\contentsline {section}{\numberline {2.3}LSTM Networks}{4}% 
+\contentsline {section}{\numberline {2.4}Related Work}{5}% 
+\contentsline {chapter}{\numberline {3}Method}{7}% 
+\contentsline {section}{\numberline {3.1}Dataset}{7}% 
+\contentsline {section}{\numberline {3.2}Implementation}{7}% 
+\contentsline {subsection}{\numberline {3.2.1}Conditional Random Fields}{7}% 
+\contentsline {subsection}{\numberline {3.2.2}BI-LSTM Network}{7}% 
+\contentsline {subsection}{\numberline {3.2.3}BI-LSTM-CRF Network}{7}% 
+\contentsline {chapter}{\numberline {4}Evaluation \& Comparison}{9}% 
+\contentsline {section}{\numberline {4.1}Results}{9}% 
+\contentsline {chapter}{\numberline {5}Conclusion}{11}% 
+\contentsline {chapter}{Bibliography}{13}% 

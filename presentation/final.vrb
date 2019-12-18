@@ -1,0 +1,5 @@
+\frametitle{The best of both worlds?}
+Combine the LSTM approach with CRF by adding a CRF layer at bottom.
+	\begin{figure}
+		\includegraphics[width=0.65\textheight]{img/lstm_crf_model.png}
+	\end{figure}

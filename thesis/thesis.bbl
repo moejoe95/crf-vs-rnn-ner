@@ -5,11 +5,38 @@
 \newblock \url{https://aclweb.org/aclwiki/CONLL-2003\_(State\_of\_the\_art)}.
 \newblock Accessed: 2019-12-11.
 
+\bibitem{akbik2018contextual}
+Alan Akbik, Duncan Blythe, and Roland Vollgraf.
+\newblock Contextual string embeddings for sequence labeling.
+\newblock In {\em Proceedings of the 27th International Conference on
+  Computational Linguistics}, pages 1638--1649, 2018.
+
+\bibitem{hammerton-2003-named}
+James Hammerton.
+\newblock Named entity recognition with long short-term memory.
+\newblock In {\em Proceedings of the Seventh Conference on Natural Language
+  Learning at {HLT}-{NAACL} 2003}, pages 172--175, 2003.
+
+\bibitem{hochreiter1997long}
+Sepp Hochreiter and J{\"u}rgen Schmidhuber.
+\newblock Long short-term memory.
+\newblock {\em Neural computation}, 9(8):1735--1780, 1997.
+
+\bibitem{huang2015bidirectional}
+Zhiheng Huang, Wei Xu, and Kai Yu.
+\newblock Bidirectional lstm-crf models for sequence tagging.
+\newblock {\em arXiv preprint arXiv:1508.01991}, 2015.
+
 \bibitem{lafferty2001conditional}
 John Lafferty, Andrew McCallum, and Fernando~CN Pereira.
 \newblock Conditional random fields: Probabilistic models for segmenting and
   labeling sequence data.
 \newblock 2001.
+
+\bibitem{lipton2015critical}
+Zachary~C Lipton, John Berkowitz, and Charles Elkan.
+\newblock A critical review of recurrent neural networks for sequence learning.
+\newblock {\em arXiv preprint arXiv:1506.00019}, 2015.
 
 \bibitem{MAL-013}
 Charles Sutton and Andrew McCallum.

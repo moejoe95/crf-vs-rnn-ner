@@ -5,45 +5,45 @@ The style file: plain.bst
 Database file #1: thesis.bib
 Warning--to sort, need author or key in conll-sota
 Warning--empty journal in lafferty2001conditional
-You've used 4 entries,
+You've used 9 entries,
             2118 wiz_defined-function locations,
-            519 strings with 4671 characters,
-and the built_in function-call counts, 1290 in all, are:
-= -- 126
-> -- 53
-< -- 1
-+ -- 21
-- -- 16
-* -- 79
-:= -- 206
-add.period$ -- 13
-call.type$ -- 4
-change.case$ -- 19
+            548 strings with 5511 characters,
+and the built_in function-call counts, 3120 in all, are:
+= -- 311
+> -- 127
+< -- 3
++ -- 51
+- -- 40
+* -- 192
+:= -- 490
+add.period$ -- 28
+call.type$ -- 9
+change.case$ -- 46
 chr.to.int$ -- 0
-cite$ -- 6
-duplicate$ -- 51
-empty$ -- 110
-format.name$ -- 16
-if$ -- 281
+cite$ -- 11
+duplicate$ -- 130
+empty$ -- 258
+format.name$ -- 40
+if$ -- 679
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 3
-newline$ -- 23
-num.names$ -- 8
-pop$ -- 28
+int.to.str$ -- 9
+missing$ -- 8
+newline$ -- 48
+num.names$ -- 18
+pop$ -- 59
 preamble$ -- 1
-purify$ -- 15
+purify$ -- 37
 quote$ -- 0
-skip$ -- 41
+skip$ -- 106
 stack$ -- 0
-substring$ -- 74
-swap$ -- 13
-text.length$ -- 1
+substring$ -- 203
+swap$ -- 40
+text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 16
+type$ -- 36
 warning$ -- 2
-while$ -- 11
-width$ -- 5
-write$ -- 43
+while$ -- 29
+width$ -- 10
+write$ -- 96
 (There were 2 warnings)
