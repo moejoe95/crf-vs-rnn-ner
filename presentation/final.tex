@@ -17,6 +17,7 @@
 \usepackage{dirtree}
 \usetikzlibrary{graphdrawing}
 \usetikzlibrary{graphs}
+\usepackage{subcaption}
 
 \setbeamercolor{block title}{bg=gray!50}
 \setbeamercolor{block body}{bg=gray!30}
@@ -132,10 +133,10 @@
 
 \section{Implementation Details}
 
-\begin{frame}[fragile]{Dataset}
+\begin{frame}[fragile]{Dataset CoNLL}
 	
 	\begin{block}{Conference on Computational NL Learning}
-		CoNLL 2003 was a shared task on language independent named entity recognition.
+		CoNLL 2003 was a shared task on language independent named entity recognition. The data is based on news wire articles from the Reuters corpus.
 	\end{block}
 
 	Four types of Named Entities:
@@ -148,7 +149,25 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{Dataset}
+\begin{frame}[fragile]{Dataset W-NUT}
+	
+	\begin{block}{Workshop on Noisy User-generated Text}
+		W-NUT 17 was a workshop that focused on NLP on noisy and informal text, such as comments from social media, online reviews, forums, etc.
+	\end{block}
+	
+	Four types of Named Entities:
+	\begin{itemize}
+		\item Person
+		\item Location
+		\item Corporation
+		\item Consumer good
+		\item Creative work
+		\item Group 
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Dataset Syntax}
 	\begin{center}
 		\begin{tabular}{l | l | l | l}
 			Word & POS & Syntax Chunk & NE \\
@@ -168,9 +187,11 @@
 \end{frame}
 
 \begin{frame}[fragile]{Conditional Random Fields}
-	Library:
+	Libraries:
 	\begin{itemize}
 		\item pycrfsuite
+		\item nltk
+		\item gensim
 	\end{itemize}
 
 	Features should describe characteristics of named entities.
@@ -204,36 +225,194 @@
 \begin{frame}[fragile]{Dictionary Features}
 	The word is contained in:
 	\begin{itemize}
-		\item stop-words list
-		\item name list
-		\item word list
-		\item wordnet
+		\item \textbf{stop-words} list
+		\begin{itemize}
+			\item is, as, the, are, has, that, etc.
+			\item Problems: 'The Who', 'Take That'
+		\end{itemize}
+		\item \textbf{name list}
+		\begin{itemize}
+			\item 7579 person names form nltk corpus
+		\end{itemize}
+		\item \textbf{word list}
+		\begin{itemize}
+			\item dictionary of 235892 words from nltk corpus
+		\end{itemize}
+		\item \textbf{wordnet}
+		\begin{itemize}
+			\item dictionary and thesaurus
+			\item provides hypernyms, synonyms, etc.
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Features from unsupervised ML algorithms}
+	The cluster of each word is used as a feature.
 	\begin{itemize}
-		\item brown cluster
-		\item LDA topic
-		\item w2c cluster
+		\item \textbf{brown cluster}
+		\begin{itemize}
+			\item hierarchical clustering algorithm
+		\end{itemize}		
+	\end{itemize}
+	\begin{center}
+		\includegraphics[width=0.5\linewidth]{img/brown.png}
+	\end{center}
+	
+\end{frame}
+
+\begin{frame}[fragile]{Features from unsupervised ML algorithms}
+	The cluster of each word is used as a feature.
+	\begin{itemize}
+		\item<1-> \textbf{brown cluster}
+		\begin{itemize}
+			\item hierarchical clustering algorithm
+		\end{itemize}
+		\item<1-> \textbf{Latent Dirichlet Allocation} (LDA) topic
+		\begin{itemize}
+			\item modelling the abstract topics of document
+			\item example: document A is 20\% topic 1, 60\% topic 2 and 20\% topic 3
+		\end{itemize}
+		\item<2-> gensim implementation of \textbf{w2v cluster}
+		\begin{itemize}
+			\item maps similar words to similar vectors
+			\item $w2v(king) - w2v(man) + w2v(woman) = \sim w2v(queen)$
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{LSTM Network}
+	Libraries:
+	\begin{itemize}
+		\item Keras functional API
+		\item Tensorflow as backend
+	\end{itemize}
+	\pause
 	\begin{figure}
-		\includegraphics[width=0.8\textheight]{img/lstm_model.png}
+	\includegraphics[width=0.6\textheight]{img/lstm_model.png}
+	\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{Bidirectional LSTM Layer}
+	\begin{itemize}
+		\item idea is to duplicate LSTM layer
+		\begin{itemize}
+			\item input as-is is feed into first LSTM layer
+			\item input reversed is feed into second LSTM layer
+		\end{itemize}
+		\item speech depends on context past and future
+	\end{itemize}
+
+	\pause
+
+	Example:
+
+	The other day we saw Paris \uncover<2>{.} \uncover<3->{\textcolor{red}{Hilton.}} 
+\end{frame}
+
+\begin{frame}[fragile]{Time Distributed Dense Layer}
+	\begin{itemize}
+		\item adds the same dense layer to every timestep 
+	\end{itemize}
+	\pause
+	\begin{figure}
+		\includegraphics[width=\linewidth]{img/lstm_overview.png}
 	\end{figure}
 \end{frame}
 
 \begin{frame}[fragile]{The best of both worlds?}
-	Combine the LSTM approach with CRF by adding a CRF layer at bottom.
+	combine the LSTM approach with CRF by adding a CRF layer at bottom:
+	\begin{itemize}
+		\item use past input features via LSTM layer
+		\item use sentence level tag information via CRF layer
+	\end{itemize}
+	\pause
+	\vspace{-0.2cm}
+	
+	\centering
 	\begin{figure}
-		\includegraphics[width=0.65\textheight]{img/lstm_crf_model.png}
+		\centering
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{img/lstm_crf_model.png}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{img/lstm_crf_overview.png}
+		\end{subfigure}
+		
 	\end{figure}
+
+	
 \end{frame}
 
 
 \section{Evaluation and Comparison}
+
+\begin{frame}[fragile]{Evaluation}
+	Evaluation of the implemented NER systems with metrics:
+	\begin{itemize}
+		\item accuracy
+		\item recall
+		\item F1-score
+	\end{itemize}
+
+	\pause
+	
+	Evaluation performed based on:
+	\begin{itemize}
+		\item token level
+		\item named entity level (CoNLL standard)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Results CoNLL Dataset}
+	token based:
+	\begin{center}
+		\begin{tabular}{| l | c | c | c |}
+			\hline
+			Method & Accuracy & Recall & F1-score \\ \hline
+			CRF &  &  &  \\ \hline
+			Bi-LSTM &  &  &  \\ \hline
+			Bi-LSTM-CRF &  &  &  \\ \hline
+		\end{tabular}
+	\end{center}
+
+	named entity based:
+	\begin{center}
+		\begin{tabular}{| l | c | c | c |}
+			\hline
+			Method & Accuracy & Recall & F1-score \\ \hline
+			CRF &  &  &  \\ \hline
+			Bi-LSTM &  &  &  \\ \hline
+			Bi-LSTM-CRF &  &  &  \\ \hline
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Results WNUT Dataset}
+	token based:
+	\begin{center}
+		\begin{tabular}{| l | c | c | c |}
+			\hline
+			Method & Accuracy & Recall & F1-score \\ \hline
+			CRF &  &  &  \\ \hline
+			Bi-LSTM &  &  &  \\ \hline
+			Bi-LSTM-CRF &  &  &  \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	named entity based:
+	\begin{center}
+		\begin{tabular}{| l | c | c | c |}
+			\hline
+			Method & Accuracy & Recall & F1-score \\ \hline
+			CRF &  &  &  \\ \hline
+			Bi-LSTM &  &  &  \\ \hline
+			Bi-LSTM-CRF &  &  &  \\ \hline
+		\end{tabular}
+	\end{center}
+\end{frame}
+
 
 \section{Conclusion}
 

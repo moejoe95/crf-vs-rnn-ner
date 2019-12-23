@@ -1,5 +1,22 @@
-\frametitle{The best of both worlds?}
-Combine the LSTM approach with CRF by adding a CRF layer at bottom.
-	\begin{figure}
-		\includegraphics[width=0.65\textheight]{img/lstm_crf_model.png}
-	\end{figure}
+\frametitle{Results WNUT Dataset}
+token based:
+	\begin{center}
+		\begin{tabular}{| l | c | c | c |}
+			\hline
+			Method & Accuracy & Recall & F1-score \\ \hline
+			CRF &  &  &  \\ \hline
+			Bi-LSTM &  &  &  \\ \hline
+			Bi-LSTM-CRF &  &  &  \\ \hline
+		\end{tabular}
+	\end{center}
+	
+	named entity based:
+	\begin{center}
+		\begin{tabular}{| l | c | c | c |}
+			\hline
+			Method & Accuracy & Recall & F1-score \\ \hline
+			CRF &  &  &  \\ \hline
+			Bi-LSTM &  &  &  \\ \hline
+			Bi-LSTM-CRF &  &  &  \\ \hline
+		\end{tabular}
+	\end{center}
