@@ -2,7 +2,7 @@
 """lstm, a tool to train/test the LSTM NN for NER on a given file.
 
 Usage:
-  lstm.py MODELNAME [--rand=<samplesize>]
+  lstm.py MODELNAME [--rand=<samplesize>] [-f <file>]
   lstm.py (-h | --help)
 
 Options:
@@ -54,6 +54,7 @@ labels = sorted(list(set(labels)))
 
 # Dictionary word:index 
 word2idx = {w : i for i, w in enumerate(words)}
+idx2word = {i: w for w, i in word2idx.items()}
 
 labels2idx = {w : i for i, w in enumerate(labels)}
 idx2label = {i: w for w, i in labels2idx.items()}
@@ -121,10 +122,7 @@ y_test_act = [[idx2label[i] for i in row] for row in y_test_act]
 
 # print report
 if rand is None:
-  report = flat_classification_report(y_pred=y_pred, y_true=y_test_act)
-  print(report)
-
-  reports.print_conll_report(y_pred, y_test_act)
+  reports.save_to_file(y_pred, y_test_act, X_te, idx2word, 'lstm_conll.txt')
 else:
   reports.rand_pretty_print(docs, y_pred)
 

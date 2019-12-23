@@ -2,7 +2,7 @@
 """crf, a tool to train/test the CRF NER system on a given file.
 
 Usage:
-  crf.py MODELNAME  [--rand=<samplesize>]
+  crf.py MODELNAME  [--rand=<samplesize>] [-f <file>]
   crf.py (-h | --help)
 
 Options:
@@ -32,7 +32,7 @@ model_name = arguments.get('MODELNAME')
 rand = arguments.get('--rand')
 
 # parse file
-docs, _, _ = conll_parser.parse(train_file)
+docs, words, _ = conll_parser.parse(train_file)
 
 if rand is not None:
   docs = conll_parser.filter_parsed(docs, rand)
@@ -73,9 +73,7 @@ tagger.open(model_name)
 y_pred = [tagger.tag(xseq) for xseq in X_te]
 
 if rand is None:
-  report = flat_classification_report(y_pred=y_pred, y_true=y_te)
-  print(report)
-
-  reports.print_conll_report(y_pred, y_te)
+  _, words, _, _ = train_test_split(words, labels, test_size=Constants.TEST_SPLIT, random_state=Constants.RAND_SEED)
+  reports.save_to_file(y_pred, y_te, words, 'crf_conll.txt')
 else:
   reports.rand_pretty_print(docs, y_pred)

@@ -2,7 +2,7 @@
 """lstm_crf, a tool to train/test the LSTM NN with a CRF layer for NER on a given file.
 
 Usage:
-  lstm_crf.py MODELNAME [--rand=<samplesize>]
+  lstm_crf.py MODELNAME [--rand=<samplesize>] [-f <file>]
   lstm_crf.py (-h | --help)
 
 Options:
@@ -58,6 +58,7 @@ labels = sorted(list(set(labels)))
 
 # Dictionary word:index 
 word2idx = {w : i for i, w in enumerate(words)}
+idx2word = {i: w for w, i in word2idx.items()}
 
 labels2idx = {w : i for i, w in enumerate(labels)}
 idx2label = {i: w for w, i in labels2idx.items()}
@@ -100,7 +101,7 @@ model = Model(input, out)
 
 if not os.path.isfile(model_name):
     model.compile(optimizer="rmsprop", loss=crf.loss_function, metrics=[crf.accuracy])
-    history = model.fit(X_tr, np.array(y_tr), batch_size=32, epochs=12, validation_split=0.1, verbose=1)
+    history = model.fit(X_tr, np.array(y_tr), batch_size=32, epochs=20, validation_split=0.1, verbose=1)
     model.save(model_name)
 else:
     custom_objects = {'CRF': CRF,
@@ -109,7 +110,7 @@ else:
                     }
     model = load_model(model_name, custom_objects=custom_objects)
 
-plot_model(model, to_file='lstm_crf.png')
+# plot_model(model, to_file='lstm_crf.png')
 
 # Evaluation
 y_pred = model.predict(X_te)
@@ -121,9 +122,7 @@ y_test_act = [[idx2label[i] for i in row] for row in y_test_act]
 
 # print report
 if rand is None:
-  report = flat_classification_report(y_pred=y_pred, y_true=y_test_act)
-  print(report)
-
-  reports.print_conll_report(y_pred, y_test_act)
+  reports.save_to_file(y_pred, y_test_act, X_te, idx2word, 'lstm_crf_conll.txt')
 else:
   reports.rand_pretty_print(docs, y_pred)
+  
