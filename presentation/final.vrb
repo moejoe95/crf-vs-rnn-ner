@@ -1,22 +1,23 @@
-\frametitle{Results WNUT Dataset}
-token based:
+\frametitle{Results}
+CoNLL dataset:
 	\begin{center}
 		\begin{tabular}{| l | c | c | c |}
 			\hline
-			Method & Accuracy & Recall & F1-score \\ \hline
-			CRF &  &  &  \\ \hline
-			Bi-LSTM &  &  &  \\ \hline
-			Bi-LSTM-CRF &  &  &  \\ \hline
+			Method & Precision & Recall & F1-score \\ \hline
+			CRF & 84.25 & 85.42 & 84.83 \\ \hline
+			Bi-LSTM & 83.03 & \textbf{87.09} & \textbf{85.01} \\ \hline
+			Bi-LSTM-CRF & \textbf{86.44} & 83.39 & 84.89 \\ \hline
 		\end{tabular}
 	\end{center}
-	
-	named entity based:
+
+	W-NUT dataset:
 	\begin{center}
-		\begin{tabular}{| l | c | c | c |}
-			\hline
-			Method & Accuracy & Recall & F1-score \\ \hline
-			CRF &  &  &  \\ \hline
-			Bi-LSTM &  &  &  \\ \hline
-			Bi-LSTM-CRF &  &  &  \\ \hline
-		\end{tabular}
-	\end{center}
+	\begin{tabular}{| l | c | c | c |}
+		\hline
+		Method & Precision & Recall & F1-score \\ \hline
+		CRF & \textbf{31.54} & \textbf{56.72} & \textbf{40.53} \\ \hline
+		Bi-LSTM & 8.69 & 23.16 & 12.63 \\ \hline
+		Bi-LSTM-CRF & 28.01 & 18.00 & 21.92 \\ \hline
+	\end{tabular}
+\end{center}
+

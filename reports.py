@@ -101,7 +101,7 @@ def rand_pretty_print(docs, y_pred):
         sent = ''
 
 
-def save_to_file(y_pred, y_act, X_te, idx2word, filename):
+def save_lstm_result(y_pred, y_act, X_te, idx2word, filename):
     f = open(filename, "w")
     for i, pred_label_sen in enumerate(y_pred):
         for j, pred_label in enumerate(pred_label_sen):
@@ -110,7 +110,7 @@ def save_to_file(y_pred, y_act, X_te, idx2word, filename):
                 f.write('\n')
 
 
-def save_to_file(y_pred, y_act, words, filename):
+def save_crf_result(y_pred, y_act, words, filename):
     f = open(filename, "w")
     for i, pred_label_sen in enumerate(y_pred):
         for j, pred_label in enumerate(pred_label_sen):

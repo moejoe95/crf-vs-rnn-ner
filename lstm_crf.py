@@ -122,7 +122,7 @@ y_test_act = [[idx2label[i] for i in row] for row in y_test_act]
 
 # print report
 if rand is None:
-  reports.save_to_file(y_pred, y_test_act, X_te, idx2word, 'lstm_crf_conll.txt')
+  reports.save_lstm_result(y_pred, y_test_act, X_te, idx2word, model_name + '.txt')
 else:
   reports.rand_pretty_print(docs, y_pred)
   

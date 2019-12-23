@@ -74,6 +74,6 @@ y_pred = [tagger.tag(xseq) for xseq in X_te]
 
 if rand is None:
   _, words, _, _ = train_test_split(words, labels, test_size=Constants.TEST_SPLIT, random_state=Constants.RAND_SEED)
-  reports.save_to_file(y_pred, y_te, words, 'crf_conll.txt')
+  reports.save_crf_result(y_pred, y_te, words, model_name + '.txt')
 else:
   reports.rand_pretty_print(docs, y_pred)
