@@ -1,14 +1,15 @@
 #!/usr/bin/env python
-"""lstm_crf, a tool to train/test the LSTM NN with a CRF layer for NER on a given file.
+"""lstm_crf, a tool to train/test the LSTM NN for NER.
 
 Usage:
-  lstm_crf.py MODELNAME [--rand=<samplesize>] [-f <file>]
+  lstm_crf.py MODELNAME [-f <file>] [--rand=<samplesize>] [--pretrain=<embeddings>]
   lstm_crf.py (-h | --help)
 
 Options:
-  -f --file             Input file with train/test data.
-  --rand=<samplesize>   Size of random sample [defaults: 5].
-  -h --help             Show this screen.
+  -f --file               Input file with train/test data [defaults ./data/conll/eng.all].
+  --rand=<samplesize>     Pretty-print a sample of size samplesize [defaults: 5].
+  --pretrain=<embeddings> File of pretrained embeddings. Per default embeddings are trained from scratch.
+  -h --help               Show this screen.
 """
 from docopt import docopt
 import conll_parser
@@ -28,6 +29,7 @@ from keras_contrib.utils import save_load_utils
 from keras_contrib.losses import crf_loss
 from keras_contrib.metrics import crf_viterbi_accuracy
 import reports
+import embeddings
 
 arguments = docopt(__doc__, version='lstm_crf')
 
@@ -90,7 +92,12 @@ dropout_rate_recurrent = 0.1
 lstm_out_size = 50
 
 input = Input(shape=(max_len,))
-model = Embedding(input_dim=len(words), output_dim=embedding_out_size, input_length=max_len)(input)
+pretrain = arguments.get('--pretrain')
+if pretrain is not None:
+  print('use pre trained embeddings:', pretrain)
+  model = embeddings.getPreTrainedEmbeddingLayer(word2idx, len(words), pretrain, 100, max_len)(input)
+else:
+  model = Embedding(input_dim=len(words), output_dim=embedding_out_size, input_length=max_len)(input)
 model = Dropout(dropout_rate)(model)
 model = Bidirectional(LSTM(units=lstm_out_size, return_sequences=True, recurrent_dropout=dropout_rate_recurrent))(model)
 model = TimeDistributed(Dense(lstm_out_size, activation="relu"))(model)

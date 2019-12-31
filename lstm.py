@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-"""lstm, a tool to train/test the LSTM NN for NER on a given file.
+"""lstm, a tool to train/test the LSTM NN for NER.
 
 Usage:
-  lstm.py MODELNAME [--rand=<samplesize>] [-f <file>] [--pretrain=<embeddings>]
+  lstm.py MODELNAME [-f <file>] [--rand=<samplesize>] [--pretrain=<embeddings>]
   lstm.py (-h | --help)
 
 Options:
-  -f --file             Input file with train/test data.
-  --rand=<samplesize>   Size of random sample [defaults: 5].
-  --pretrain=<embeddings> File of pretrained embeddings.
-  -h --help             Show this screen.
+  -f --file               Input file with train/test data [defaults ./data/conll/eng.all].
+  --rand=<samplesize>     Pretty-print a sample of size samplesize [defaults: 5].
+  --pretrain=<embeddings> File of pretrained embeddings. Per default embeddings are trained from scratch.
+  -h --help               Show this screen.
 """
 from docopt import docopt
 import conll_parser

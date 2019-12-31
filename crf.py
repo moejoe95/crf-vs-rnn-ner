@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""crf, a tool to train/test the CRF NER system on a given file.
+"""crf, a tool to train/test the CRF NER system.
 
 Usage:
   crf.py MODELNAME  [--rand=<samplesize>] [-f <file>]
