@@ -2,12 +2,13 @@
 """lstm, a tool to train/test the LSTM NN for NER on a given file.
 
 Usage:
-  lstm.py MODELNAME [--rand=<samplesize>] [-f <file>]
+  lstm.py MODELNAME [--rand=<samplesize>] [-f <file>] [--pretrain=<embeddings>]
   lstm.py (-h | --help)
 
 Options:
   -f --file             Input file with train/test data.
   --rand=<samplesize>   Size of random sample [defaults: 5].
+  --pretrain=<embeddings> File of pretrained embeddings.
   -h --help             Show this screen.
 """
 from docopt import docopt
@@ -24,6 +25,7 @@ from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 import Constants
 import reports
+import embeddings
 
 arguments = docopt(__doc__, version='lstm')
 
@@ -89,8 +91,16 @@ if not os.path.isfile(model_name):
   dropout_rate_recurrent = 0.1
   lstm_out_size = 50
 
+
   input = Input(shape=(max_len,))
-  model = Embedding(input_dim=len(words), output_dim=embedding_out_size, input_length=max_len)(input)
+  
+  pretrain = arguments.get('--pretrain')
+  if pretrain is not None:
+    print('use pre trained embeddings:', pretrain)
+    model = embeddings.getPreTrainedEmbeddingLayer(word2idx, len(words), pretrain, 100, max_len)(input)
+  else:
+    model = Embedding(input_dim=len(words), output_dim=embedding_out_size, input_length=max_len)(input)
+
   model = Dropout(dropout_rate)(model)
   model = Bidirectional(LSTM(units=lstm_out_size, return_sequences=True, recurrent_dropout=dropout_rate_recurrent))(model)
   out = TimeDistributed(Dense(len(labels2idx), activation="softmax"))(model)  # softmax output layer
