@@ -59,7 +59,18 @@
 \end{frame}
 
 \begin{frame}[fragile]{Motivation}
-	test
+	\begin{center}
+	James visited the Eiffel Tower in 2012.\\
+	\pause
+	$\downarrow$ \\
+	\pause
+	\textcolor{red}{James} \scalebox{0.4}{[PERSON]} visited the \textcolor{green}{Eiffel} \scalebox{0.4}{[LOCATION]} \textcolor{green}{Tower} \scalebox{0.4}{[LOCATION]} in \textcolor{blue}{2012} \scalebox{0.4}{[TIME]}.	
+	\end{center}
+	\pause
+	\begin{itemize}
+		\item traditional approach was machine learning (CRF, HMM, etc.)
+		\item from 2015 onwards deep learning is considered state of the art for many NLP tasks
+	\end{itemize}
 \end{frame}
 
 % überblick
@@ -69,28 +80,22 @@
 \end{frame}
 
 
-\section{Background \& Related Work}
-
-\subsection{Background}
+\section{Background}
 
 \begin{frame}[fragile]{Named Entity Recognition}
 	\begin{block}{Definition: NER}
 		\textit{Named Entity Recognition} is the task of locating and classifying named entities in unstructured text. A named entity is classified into a predefined set of categories.
 	\end{block}
 	\pause
-	
 	\begin{center}
-		
-	James visited the Eiffel Tower in 2012.\\
-	$\downarrow$ \\
-	\textcolor{red}{James} \scalebox{0.4}{[PERSON]} visited the \textcolor{green}{Eiffel} \scalebox{0.4}{[LOCATION]} \textcolor{green}{Tower} \scalebox{0.4}{[LOCATION]} in \textcolor{blue}{2012} \scalebox{0.4}{[TIME]}.
-	
+		James visited the Eiffel Tower in 2012.\\
+		$\downarrow$ \\
+		\textcolor{red}{James} \scalebox{0.4}{[PERSON]} visited the \textcolor{green}{Eiffel} \scalebox{0.4}{[LOCATION]} \textcolor{green}{Tower} \scalebox{0.4}{[LOCATION]} in \textcolor{blue}{2012} \scalebox{0.4}{[TIME]}.	
 	\end{center}
 \end{frame}
 
-
 \begin{frame}[fragile]{Conditional Random Fields}
-	\begin{block}{Definition: CRF}
+	\begin{block}{Definition: CRF \footcite{lafferty2001conditional}}
 	A \textit{Conditional Random Field} is a discriminative probabilistic classifier. It makes its prediction not just based on the input sample, but also based on the context of the input sample.
 	\end{block}
 	\pause
@@ -113,22 +118,26 @@
 	\end{block}
 	\pause
 	\begin{itemize}
-		\item Suited for sequence labeling
-		\item Problems with long term dependencies
-		\item Vanishing and exploding gradient
+		\item<2-> Suited for sequence labeling
+		\item<3-> Problems with long term dependencies
+		\begin{itemize}
+			\item Vanishing and exploding gradient
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Long-Short-Term-Memory Networks}
 
-	\begin{block}{Definition: LSTM networks}
+	\begin{block}{Definition: LSTM\footcite{hochreiter1997long} networks}
 		LSTM networks are a special case of RNNs, which where designed to overcome issues with the vanishing gradient on long term relationships.
 	\end{block}
 	\pause
-	\vspace{-0.35cm}
-	\begin{figure}
-		\includegraphics[width=\linewidth]{img/lstm.png}
-	\end{figure}
+	\vspace{-0.5cm}
+	\begin{center}
+		\begin{figure}
+			\includegraphics[width=0.9\linewidth]{img/lstm.png}
+		\end{figure}
+	\end{center}
 \end{frame}
 
 \section{Implementation Details}
@@ -136,9 +145,9 @@
 \begin{frame}[fragile]{Dataset CoNLL}
 	
 	\begin{block}{Conference on Computational NL Learning}
-		CoNLL 2003 was a shared task on language independent named entity recognition. The data is based on news wire articles from the Reuters corpus.
+		CoNLL 2003 \footcite{tjongkimsang2003conll} was a shared task on language independent named entity recognition. The data is based on news wire articles from the Reuters corpus.
 	\end{block}
-
+	\pause
 	Four types of Named Entities:
 	\begin{itemize}
 		\item Person
@@ -152,9 +161,9 @@
 \begin{frame}[fragile]{Dataset W-NUT}
 	
 	\begin{block}{Workshop on Noisy User-generated Text}
-		W-NUT 17 was a workshop that focused on NLP on noisy and informal text, such as comments from social media, online reviews, forums, etc.
+		W-NUT 17 \footcite{derczynski2017results} was a workshop that focused on NLP on noisy and informal text, such as comments from social media, online reviews, forums, etc.
 	\end{block}
-	
+	\pause
 	Four types of Named Entities:
 	\begin{itemize}
 		\item Person
@@ -169,8 +178,9 @@
 
 \begin{frame}[fragile]{Dataset Syntax}
 	\begin{center}
+		\begin{table}
 		\begin{tabular}{l | l | l | l}
-			Word & POS & Syntax Chunk & NE \\
+			Word & POS* & Syntax Chunk* & NE \\
 			\hline
 			U.N. & NNP & I-NP & I-ORG 
 \\
@@ -183,6 +193,8 @@
 			Baghdad & NNP & I-NP & I-LOC \\ 
 			. & . & O & O \\
 		\end{tabular}
+		\caption{Starred columns are optional.}
+		\end{table}
 	\end{center}
 \end{frame}
 
@@ -193,52 +205,52 @@
 		\item nltk
 		\item gensim
 	\end{itemize}
-
-	Features should describe characteristics of named entities.
+	\pause
 	
+	Features should describe characteristics of named entities:
 	\begin{itemize}
-		\item Word Features
-		\item Sentence \& Collection Features
-		\item Dictionary Features
-		\item Features from unsupervised ML algorithms
+		\item<2-> Word Features
+		\item<3-> Sentence \& Collection Features
+		\item<4-> Dictionary Features
+		\item<5-> Features from unsupervised ML algorithms
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Word Features}
 	\begin{itemize}
-		\item length of word
-		\item the word starts with an upper-case letter
-		\item the word contains an upper-case letter
-		\item the word contains a digit
-		\item the word contains a special character (-, /, etc.)
-		\item word shape: 'Word' $\rightarrow$ 'Aa+', 'WORD' $\rightarrow$ 'A+', '2019-12-12' $\rightarrow$ '9999\#99\#99'
+		\item<1-> length of word
+		\item<2-> the word starts with an upper-case letter
+		\item<3-> the word contains an upper-case letter
+		\item<4-> the word contains a digit
+		\item<5-> the word contains a special character (-, /, etc.)
+		\item<6-> word shape: 'Word' $\rightarrow$ 'Aa+', 'WORD' $\rightarrow$ 'A+', '2019-12-12' $\rightarrow$ '9999\#99\#99'
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Sentence \& Collection Features}
 	\begin{itemize}
-		\item position of word in sentence
-		\item number of occurrences in collection
+		\item<1-> position of word in sentence
+		\item<2-> number of occurrences in collection
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Dictionary Features}
 	The word is contained in:
 	\begin{itemize}
-		\item \textbf{stop-words} list
+		\item<1-> \textbf{stop-words} list
 		\begin{itemize}
 			\item is, as, the, are, has, that, etc.
 			\item Problems: 'The Who', 'Take That'
 		\end{itemize}
-		\item \textbf{name list}
+		\item<2-> \textbf{name list}
 		\begin{itemize}
 			\item 7579 person names form nltk corpus
 		\end{itemize}
-		\item \textbf{word list}
+		\item<3-> \textbf{word list}
 		\begin{itemize}
 			\item dictionary of 235892 words from nltk corpus
 		\end{itemize}
-		\item \textbf{wordnet}
+		\item<4-> \textbf{WordNet}
 		\begin{itemize}
 			\item dictionary and thesaurus
 			\item provides hypernyms, synonyms, etc.
@@ -247,9 +259,10 @@
 \end{frame}
 
 \begin{frame}[fragile]{Features from unsupervised ML algorithms}
-	The cluster of each word is used as a feature.
+	The cluster the word is in is used as a feature.
+	\pause
 	\begin{itemize}
-		\item \textbf{brown cluster}
+		\item \textbf{brown cluster} \footcite{brown1992class}
 		\begin{itemize}
 			\item hierarchical clustering algorithm
 		\end{itemize}		
@@ -267,7 +280,7 @@
 		\begin{itemize}
 			\item hierarchical clustering algorithm
 		\end{itemize}
-		\item<1-> \textbf{Latent Dirichlet Allocation} (LDA) topic
+		\item<1-> \textbf{Latent Dirichlet Allocation} (LDA) \footcite{blei2003latent} topic
 		\begin{itemize}
 			\item modelling the abstract topics of document
 			\item example: document A is 20\% topic 1, 60\% topic 2 and 20\% topic 3
@@ -287,26 +300,27 @@
 		\item Tensorflow as backend
 	\end{itemize}
 	\pause
+	\vspace{-0.3cm}
 	\begin{figure}
-	\includegraphics[width=0.6\textheight]{img/lstm_model.png}
+		\includegraphics[width=0.6\textheight]{img/lstm_model.png}
+		\caption{LSTM model, as presented in \footcite{huang2015bidirectional}}
 	\end{figure}
 \end{frame}
 
 \begin{frame}[fragile]{Bidirectional LSTM Layer}
 	\begin{itemize}
-		\item idea is to duplicate LSTM layer
+		\item<1-> idea is to duplicate LSTM layer
 		\begin{itemize}
-			\item input as-is is feed into first LSTM layer
-			\item input reversed is feed into second LSTM layer
+			\item<2-> input as-is is feed into first LSTM layer
+			\item<3-> input reversed is feed into second LSTM layer
 		\end{itemize}
-		\item speech depends on context past and future
+		\item<4-> speech depends on context of past and future
 	\end{itemize}
 
-	\pause
-
-	Example:
-
-	The other day we saw Paris \uncover<2>{.} \uncover<3->{\textcolor{red}{Hilton.}} 
+	\onslide<5->
+	\begin{exampleblock}{Example}
+		The other day we saw Paris \uncover<2>{.} \uncover<3->{\hspace{-0.25cm}\textcolor{red}{Hilton.}}
+	\end{exampleblock} 
 \end{frame}
 
 \begin{frame}[fragile]{Time Distributed Dense Layer}
@@ -320,10 +334,10 @@
 \end{frame}
 
 \begin{frame}[fragile]{The best of both worlds?}
-	combine the LSTM approach with CRF by adding a CRF layer at bottom:
+	combine LSTM network with CRF  \footcite{huang2015bidirectional}:
 	\begin{itemize}
-		\item use past input features via LSTM layer
-		\item use sentence level tag information via CRF layer
+		\item<1-> use past input features via LSTM layer
+		\item<2-> use sentence level tag information via CRF layer
 	\end{itemize}
 	\pause
 	\vspace{-0.2cm}
@@ -358,11 +372,7 @@
 
 	\pause
 	
-	Evaluation performed based on:
-	\begin{itemize}
-		\item token level
-		\item named entity level (CoNLL standard)
-	\end{itemize}
+	Evaluation performed based on named entity level.
 \end{frame}
 
 \begin{frame}[fragile]{Results}
@@ -390,8 +400,33 @@
 
 \end{frame}
 
+\begin{frame}[fragile]{State-of-the-art in NER}
+	\begin{figure}
+		\includegraphics[width=0.2\linewidth]{img/flair.png}
+	\end{figure}
+	\begin{itemize}
+		\item<1-> State-of-the-art NLP tool (by Zalando Research \footcite{akbik2019flair})
+		\item<2-> uses Bi-LSTM-CRF model
+		\item<3-> 93.09 F1 on CoNLL 2003
+		\item<4-> 49.49 F1 on W-NUT 2017
+	\end{itemize}
+\end{frame}
+
 
 \section{Conclusion}
+
+\begin{frame}[fragile]{Conclusion}
+	\begin{itemize}
+		\item<1-> CRF approach needs a lot of feature engineering
+		\item<2-> training CRF is not really faster because of unsupervised clustering algorithms
+		\item<3-> for noisy text CRFs seems to work better
+		\item<4-> LSTM approach has more potential for improvement
+		\begin{itemize}
+			\item use additional input layers
+			\item use other string embeddings (Flair, BERT, ELMo)
+		\end{itemize}
+	\end{itemize}
+\end{frame}
 
 
 %\printbibliography
