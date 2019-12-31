@@ -2,7 +2,8 @@
 
 ## CRF classification report
 
-Evaluation is done via the python script `conlleval.py` from https://github.com/spyysalo/conlleval.py.
+Evaluation is done via the python script `conlleval.py` from https://github.com/spyysalo/conlleval.py. 
+Each test was also done with pretrained embeddings from [glove](https://nlp.stanford.edu/projects/glove/) with a vector size of 100.
 
 ### CoNLL 2003
 
@@ -41,6 +42,16 @@ accuracy:  97.32%; precision:  83.03%; recall:  87.09%; FB1:  85.01
               PER: precision:  81.10%; recall:  88.23%; FB1:  84.51  1386
 ```
 
+With pretrained embeddings:
+```
+processed 45156 tokens with 4963 phrases; found: 5093 phrases; correct: 4297.
+accuracy:  97.49%; precision:  84.37%; recall:  86.58%; FB1:  85.46
+              LOC: precision:  89.18%; recall:  92.80%; FB1:  90.95  1589
+             MISC: precision:  81.96%; recall:  85.71%; FB1:  83.80  754
+              ORG: precision:  82.02%; recall:  79.46%; FB1:  80.72  1368
+              PER: precision:  82.49%; recall:  87.49%; FB1:  84.92  1382
+```
+
 ### W-NUT 17
 
 ```
@@ -52,6 +63,18 @@ accuracy:  94.37%; precision:   8.69%; recall:  23.16%; FB1:  12.63
          location: precision:   6.32%; recall:  60.00%; FB1:  11.43  95
            person: precision:  19.34%; recall:  21.21%; FB1:  20.23  181
           product: precision:   0.00%; recall:   0.00%; FB1:   0.00  38
+```
+
+With pretrained embeddings:
+```
+processed 12477 tokens with 163 phrases; found: 463 phrases; correct: 28.
+accuracy:  94.25%; precision:   6.05%; recall:  17.18%; FB1:   8.95
+      corporation: precision:   0.00%; recall:   0.00%; FB1:   0.00  33
+    creative-work: precision:   0.00%; recall:   0.00%; FB1:   0.00  46
+            group: precision:   0.00%; recall:   0.00%; FB1:   0.00  78
+         location: precision:   2.17%; recall:  18.18%; FB1:   3.88  92
+           person: precision:  14.44%; recall:  17.22%; FB1:  15.71  180
+          product: precision:   0.00%; recall:   0.00%; FB1:   0.00  34
 ```
 
 ## BI-LSTM-CRF NN classification report
@@ -67,6 +90,17 @@ accuracy:  96.96%; precision:  86.44%; recall:  83.39%; FB1:  84.89
               PER: precision:  86.36%; recall:  91.03%; FB1:  88.63  1386
 ```
 
+With pretrained embeddings:
+
+```
+processed 45265 tokens with 5299 phrases; found: 5109 phrases; correct: 4568.
+accuracy:  97.62%; precision:  89.41%; recall:  86.20%; FB1:  87.78
+              LOC: precision:  94.79%; recall:  87.69%; FB1:  91.10  1593
+             MISC: precision:  86.34%; recall:  76.05%; FB1:  80.87  754
+              ORG: precision:  84.88%; recall:  82.14%; FB1:  83.49  1376
+              PER: precision:  89.39%; recall:  95.38%; FB1:  92.29  1386
+```
+
 ### W-NUT 17
 
 ```
@@ -78,4 +112,16 @@ accuracy:  90.63%; precision:  28.01%; recall:  18.00%; FB1:  21.92
          location: precision:  31.63%; recall:  31.63%; FB1:  31.63  98
            person: precision:  29.03%; recall:  40.30%; FB1:  33.75  186
           product: precision:  13.16%; recall:   6.76%; FB1:   8.93  38
+```
+
+With pretrained embeddings:
+```
+processed 12876 tokens with 522 phrases; found: 482 phrases; correct: 162.
+accuracy:  93.43%; precision:  33.61%; recall:  31.03%; FB1:  32.27
+      corporation: precision:  44.12%; recall:  55.56%; FB1:  49.18  34
+    creative-work: precision:  26.09%; recall:  14.63%; FB1:  18.75  46
+            group: precision:  32.50%; recall:  14.77%; FB1:  20.31  80
+         location: precision:  39.80%; recall:  41.49%; FB1:  40.62  98
+           person: precision:  34.41%; recall:  57.14%; FB1:  42.95  186
+          product: precision:  15.79%; recall:  19.35%; FB1:  17.39  38
 ```
