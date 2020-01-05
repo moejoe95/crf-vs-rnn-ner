@@ -1,4 +1,4 @@
-# Comparing CRF and BI-LSTM networsk for Named Entity Recognition (NER)
+# Comparing CRF and BI-LSTM networks for Named Entity Recognition (NER)
 
 Goal of this project is to compare the performance of conditional random fields (CRF) with a deep learning approach (Bidirectional Long-Short-Term-Memory network) for named entity recognition (NER).
 
