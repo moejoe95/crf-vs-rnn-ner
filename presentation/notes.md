@@ -2,8 +2,10 @@
 
 ## CRF
 
-To model the context of a sample we have to define feature functions, which have to be defined in a way that expresses some characteristic that is present in the training data and we want our model to hold. The feature functions are indicated by f_k in formula (1). y_t is the current label, y_{t-1} the previous label, and x_t are input samples. Theta is the parameter vector, whichs values have to be learning in training. 
-The outputs of the feature functions multiplied by the parameter vector are summed up. This is computed for every timestep and normalized. The result is then a probability distribution for each label for each sample. You take the maximum then and you have the prediction.
+Formula (1) shows how a CRF is modeled. We want to compute the conditional probability of Y given X, where X is the input sample, which is a word in a sentence in our case, and Y is a member of the predefined categories of named entities. For each category we calculate the probability of the word X belonging to this category.
+
+The main idea is to define so called feature functions in a way that expresses some characteristic that is present in the training data and we want our model to hold. The feature functions are indicated by f_k in formula (1). y_t is the current label, y_{t-1} the previous label, and x_t are input samples. Theta is the parameter vector, whichs values have to be learning in training. 
+The outputs of the feature functions multiplied by the parameter vector are summed up. This is computed for every timestep and normalized to be between 0 and 1. The result is then a probability distribution for each label for each sample. You take the maximum then and you have the prediction.
 
 ## RNNs 
 
@@ -25,3 +27,10 @@ Next step is the *forget* gate. The new variable *s* represents the internal sta
 
 
 Last step is the *output* gate, which operates in the same way as the input gate. The output is squashed between -1 and 1 by the hyperbolic tangent function, and the output gate with the sigmoid function determines which values to output.
+
+
+## Features from unsupervised ML algorithms
+
+### brown clusters
+
+Brown clusters are hierarchical clustering algorithms that work based on distributional information. The intuition is that similar words appear in similar context, or more precisely, similar words have similar distributions of words to ther left and right.

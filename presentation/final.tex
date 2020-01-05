@@ -117,13 +117,19 @@
 		RNNs are a special type of artificial neural networks that have a feedback loop feeding the hidden layers back into themselves. The loop provides a kind of memory that allow the network to better recognize patterns.
 	\end{block}
 	\pause
-	\begin{itemize}
-		\item<2-> Suited for sequence labeling
-		\item<3-> Problems with long term dependencies
+	\vspace{0.5cm}
+	\begin{overprint}
+		\onslide<2> \includegraphics[width=\linewidth]{img/rnn.png}
+		\onslide<3->
 		\begin{itemize}
-			\item Vanishing and exploding gradient
+			\item<3-> Suited for sequence labeling
+			\item<4-> Problems with long term dependencies
+			\begin{itemize}
+				\item Vanishing and exploding gradient
+			\end{itemize}
 		\end{itemize}
-	\end{itemize}
+	\end{overprint}
+
 \end{frame}
 
 \begin{frame}[fragile]{Long-Short-Term-Memory Networks}
@@ -164,7 +170,7 @@
 		W-NUT 17 \footcite{derczynski2017results} was a workshop that focused on NLP on noisy and informal text, such as comments from social media, online reviews, forums, etc.
 	\end{block}
 	\pause
-	Four types of Named Entities:
+	Six types of Named Entities:
 	\begin{itemize}
 		\item Person
 		\item Location
@@ -259,38 +265,51 @@
 \end{frame}
 
 \begin{frame}[fragile]{Features from unsupervised ML algorithms}
-	The cluster the word is in is used as a feature.
-	\pause
-	\begin{itemize}
-		\item \textbf{brown cluster} \footcite{brown1992class}
-		\begin{itemize}
-			\item hierarchical clustering algorithm
-		\end{itemize}		
-	\end{itemize}
-	\begin{center}
-		\includegraphics[width=0.5\linewidth]{img/brown.png}
-	\end{center}
 	
-\end{frame}
-
-\begin{frame}[fragile]{Features from unsupervised ML algorithms}
 	The cluster of each word is used as a feature.
+	
+	\alt<1>{
 	\begin{itemize}
-		\item<1-> \textbf{brown cluster}
+		\item \textbf{brown cluster}
 		\begin{itemize}
 			\item hierarchical clustering algorithm
 		\end{itemize}
-		\item<1-> \textbf{Latent Dirichlet Allocation} (LDA) \footcite{blei2003latent} topic
+	\end{itemize}
+	
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/brown.png}
+	}{
+	\begin{itemize}
+		\item brown cluster
+	\end{itemize}
+	}
+	\alt<2>{
+	\begin{itemize}
+		\item \textbf{Latent Dirichlet Allocation} (LDA) \footcite{blei2003latent} topic
 		\begin{itemize}
 			\item modelling the abstract topics of document
 			\item example: document A is 20\% topic 1, 60\% topic 2 and 20\% topic 3
 		\end{itemize}
-		\item<2-> gensim implementation of \textbf{w2v cluster}
+	\end{itemize}
+	}{
+	\begin{itemize}
+		\item Latent Dirichlet Allocation (LDA)
+	\end{itemize}
+	}
+	\alt<3>{
+	\begin{itemize}
+		\item \textbf{gensim implementation of w2v cluster}
 		\begin{itemize}
 			\item maps similar words to similar vectors
 			\item $w2v(king) - w2v(man) + w2v(woman) = \sim w2v(queen)$
 		\end{itemize}
 	\end{itemize}
+	}{
+	\begin{itemize}
+		\item w2v cluster
+	\end{itemize}
+	
+	}
 \end{frame}
 
 \begin{frame}[fragile]{LSTM Network}
@@ -319,7 +338,7 @@
 
 	\onslide<5->
 	\begin{exampleblock}{Example}
-		The other day we saw Paris \uncover<2>{.} \uncover<3->{\hspace{-0.25cm}\textcolor{red}{Hilton.}}
+		The other day we saw Paris \uncover<5>{.} \uncover<6->{\hspace{-0.25cm}\textcolor{red}{Hilton.}}
 	\end{exampleblock} 
 \end{frame}
 
@@ -339,24 +358,13 @@
 		\item<1-> use past input features via LSTM layer
 		\item<2-> use sentence level tag information via CRF layer
 	\end{itemize}
-	\pause
+
 	\vspace{-0.2cm}
-	
+	\onslide<3->
 	\centering
 	\begin{figure}
-		\centering
-		\begin{subfigure}{.5\textwidth}
-			\centering
-			\includegraphics[width=\linewidth]{img/lstm_crf_model.png}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering
-			\includegraphics[width=\linewidth]{img/lstm_crf_overview.png}
-		\end{subfigure}
-		
+		\includegraphics[width=0.5\linewidth]{img/lstm_crf_model.png}
 	\end{figure}
-
-	
 \end{frame}
 
 
@@ -382,8 +390,8 @@
 			\hline
 			Method & Precision & Recall & F1-score \\ \hline
 			CRF & 84.25 & 85.42 & 84.83 \\ \hline
-			Bi-LSTM & 83.03 & \textbf{87.09} & \textbf{85.01} \\ \hline
-			Bi-LSTM-CRF & \textbf{86.44} & 83.39 & 84.89 \\ \hline
+			Bi-LSTM* & 84.37 & \textbf{86.58} & 85.46 \\ \hline
+			Bi-LSTM-CRF* & \textbf{89.41} & 86.20 & \textbf{87.78} \\ \hline
 		\end{tabular}
 	\end{center}
 
@@ -392,11 +400,13 @@
 	\begin{tabular}{| l | c | c | c |}
 		\hline
 		Method & Precision & Recall & F1-score \\ \hline
-		CRF & \textbf{31.54} & \textbf{56.72} & \textbf{40.53} \\ \hline
+		CRF & 31.54 & \textbf{56.72} & \textbf{40.53} \\ \hline
 		Bi-LSTM & 8.69 & 23.16 & 12.63 \\ \hline
-		Bi-LSTM-CRF & 28.01 & 18.00 & 21.92 \\ \hline
+		Bi-LSTM-CRF* & \textbf{33.61} & 31.03 & 32.27 \\ \hline
 	\end{tabular}
 \end{center}
+
+{\footnotesize * pre-trained GloVe-embeddings used}
 
 \end{frame}
 
