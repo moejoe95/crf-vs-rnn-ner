@@ -4,6 +4,7 @@ from sklearn.cluster import MiniBatchKMeans
 import gensim
 import os
 
+# TODO try to use pretrained embeddings here
 
 class word2vec:
 

@@ -46,8 +46,9 @@
 \title{Comparing Conditional Random Fields and LSTM Networks for Named Entity Recognition}	
 \date{\today}
 
-\author{Josef Gugglberger (student)
-\and Clemens Sauerwein (supvervisor)}
+\author{Josef Gugglberger (student),
+\and Sara Bauer (supervisor),
+\and Clemens Sauerwein (supervisor)}
 \institute{LV 703605-6 Masterseminar
 \and \includegraphics[scale=0.3]{img/universitaet-innsbruck-logo-rgb-farbe}}
 
@@ -71,6 +72,13 @@
 		\item traditional approach was machine learning (CRF, HMM, etc.)
 		\item from 2015 onwards deep learning is considered state of the art for many NLP tasks
 	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Goal of Thesis}
+	
+	\begin{block}{Goal of Thesis}
+		Apply a practical study comparing Conditional Random Fields and Long-Short-Term-Memory Networks for Named Entity Recognition. The aim is to implement both approaches and compare their precision, recall and F1-score on two different datasets. 
+	\end{block}
 \end{frame}
 
 % überblick
@@ -135,7 +143,7 @@
 \begin{frame}[fragile]{Long-Short-Term-Memory Networks}
 
 	\begin{block}{Definition: LSTM\footcite{hochreiter1997long} networks}
-		LSTM networks are a special case of RNNs, which where designed to overcome issues with the vanishing gradient on long term relationships.
+		LSTM networks are a special type of RNNs, which where designed to overcome issues with the vanishing gradient on long term relationships.
 	\end{block}
 	\pause
 	\vspace{-0.5cm}

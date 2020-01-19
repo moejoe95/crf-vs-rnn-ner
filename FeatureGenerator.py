@@ -76,7 +76,7 @@ class FeatureGenerator:
             'word.brownbitseq=%s' % self.brown_dict[word][0],
             'word.frequency=%s' % self.brown_dict[word][1],
             'word.browncluster=%s' % self.brown_dict[word][2],
-            'word.ldatopic=%s' % self.lda.lda.get(word, -1),
+            'word.ldatopic=%s' % self.lda.lda.get(word, -1), # TODO maybe implement per sentence instead of per word?
             'word.inwordlist=%s' % (word in self.wordset),
             'word.innamelist=%s' % (word in self.nameset),
             'word.specificness=%s' % specificness,
