@@ -354,22 +354,27 @@ smaller print.
 \def\titlep{%
         \thispagestyle{empty}%
         \null\vskip1in%
+        \begin{figure}
+        \centering
+        \includegraphics[width=7cm]{img/uni-innsbruck}
+        \end{figure}
         \begin{center}
                 \large\uppercase\expandafter{\@title}
         \end{center}
         \vfill
         \begin{center}
-\large
+		\large
 
-                \sc \@author\\
-                supervised by \@principaladviser\\
-                Masterseminar\\
-                leopold-franzens-universit\"at innsbruck\\
+                \sc \@author \\
+                supervised by \@principaladviser \\
+                Seminar Paper\\
+                leopold-franzens-universit\"at innsbruck \\
                 \@submitdate \uppercase\expandafter{\@whichend}
 
         \end{center}
         \vfill
 		\vskip.5in\newpage}
+		
 
 
 \newlength{\signaturespace}
